@@ -25,7 +25,7 @@ public class Ticket {
 	
 	//Constructeur avec paramètre
 	public Ticket(Double prixPaye, Utilisateur utilisateur, Place place) {
-		this.setPrixAchete(prixPaye);
+		this.prixPaye = prixPaye;
 		this.utilisateur = utilisateur;
 		this.place = place;
 	}

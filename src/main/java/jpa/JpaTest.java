@@ -24,6 +24,10 @@ public class JpaTest {
 		tx.begin();
 		try {
 
+
+			
+			
+			
 			// TODO create and persist entity
 		} catch (Exception e) {
 			e.printStackTrace();
