@@ -6,6 +6,7 @@ import java.util.List;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 
 @Entity
@@ -23,6 +24,10 @@ public class Utilisateur {
 	
 	// Liste des tickets achétés par un utilisateur
 	private List <Ticket> tickets = new ArrayList <Ticket>(); 
+	
+	
+	// Collection des notifications recus par un utilisateur
+	private List<Notification> notifs = new ArrayList<>();
 	
 	//Constructeur sans paramètre
 	public Utilisateur() {
@@ -72,6 +77,21 @@ public class Utilisateur {
 	// Setters pour la liste de tickets
 	public void setTickets(List <Ticket> tickets) {
 		this.tickets = tickets;
+	}
+
+	/**
+	 * @return the notifs
+	 */
+	 @ManyToMany
+	public List<Notification> getNotifs() {
+		return notifs;
+	}
+
+	/**
+	 * @param notifs the notifs to set
+	 */
+	public void setNotifs(List<Notification> notifs) {
+		this.notifs = notifs;
 	}
 	
 

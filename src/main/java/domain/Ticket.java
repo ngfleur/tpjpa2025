@@ -15,6 +15,7 @@ public class Ticket {
 	private Double prixPaye;
 	
 	private Utilisateur utilisateur;
+	private Evenement evenement;
 	
 	private Place place;
 	
@@ -24,10 +25,11 @@ public class Ticket {
 	}
 	
 	//Constructeur avec paramètre
-	public Ticket(Double prixPaye, Utilisateur utilisateur, Place place) {
+	public Ticket(Double prixPaye, Utilisateur utilisateur, Place place, Evenement evenement) {
 		this.prixPaye = prixPaye;
 		this.utilisateur = utilisateur;
 		this.place = place;
+		this.evenement = evenement ;
 	}
 
 	public Double getPrixPaye() {
@@ -60,5 +62,19 @@ public class Ticket {
 	 */
 	public void setPlace(Place place) {
 		this.place = place;
+	}
+
+	/**
+	 * @return the evenement
+	 */
+	public Evenement getEvenement() {
+		return evenement;
+	}
+
+	/**
+	 * @param evenement the evenement to set
+	 */
+	public void setEvenement(Evenement evenement) {
+		this.evenement = evenement;
 	}
 }
