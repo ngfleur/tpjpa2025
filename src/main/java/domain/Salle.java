@@ -12,8 +12,6 @@ import jakarta.persistence.OneToMany;
 @Entity
 public class Salle {
 	
-	@Id
-	@GeneratedValue
 	private Long id;
 	
 	private String name;
@@ -32,7 +30,16 @@ public class Salle {
 		this.adresseSalle = adresseSalle;
 		
 	}
-	
+	@Id
+	@GeneratedValue
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	//getters
 	public String getName() {
 		return name;
@@ -43,7 +50,7 @@ public class Salle {
 		this.name = name;
 	}
 	
-	@OneToMany(mappedBy="places")
+	@OneToMany(mappedBy="salle")
 	public List<Place> getPlaces() {
 		return places;
 	}

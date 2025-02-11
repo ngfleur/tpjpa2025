@@ -88,7 +88,7 @@ public void setDescription(String description) {
 }
 
 
-@ManyToMany(mappedBy = "Evenement", cascade = CascadeType.PERSIST)
+@ManyToMany
 public List<Artiste> getArtistes() {
 	return artistes;
 }
@@ -98,17 +98,17 @@ public void setArtistes(List<Artiste> artistes) {
 }
 
 
-@ManyToMany(mappedBy = "Evenement", cascade = CascadeType.PERSIST)
+@ManyToMany(mappedBy = "evenements", cascade = CascadeType.PERSIST)
 public List<GenreMusical> getGenreMusicaux() {
 	return genreMusicaux;
 }
 
-public void setGenreMusical(List<GenreMusical> genreMusicaux) {
+public void setGenreMusicaux(List<GenreMusical> genreMusicaux) {
 	this.genreMusicaux = genreMusicaux;
 }
 
 
-@OneToMany(mappedBy = "Evenement", cascade = CascadeType.PERSIST)
+@OneToMany(mappedBy = "evenement", cascade = CascadeType.PERSIST)
 public List<Notification> getNotifs() {
 	return notifs;
 }
@@ -118,7 +118,7 @@ public void setNotifs(List<Notification> notifs) {
 }
 
 
-@OneToMany(mappedBy = "Evenement", cascade = CascadeType.PERSIST)
+@OneToMany(mappedBy = "evenement", cascade = CascadeType.PERSIST)
 public List<Ticket> getTickets() {
 	return tickets;
 }

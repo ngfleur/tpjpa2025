@@ -8,8 +8,6 @@ import jakarta.persistence.ManyToOne;
 @Entity
 public class Ticket {
 	
-	@Id
-	@GeneratedValue
 	private Long id;
 	
 	private Double prixPaye;
@@ -32,15 +30,25 @@ public class Ticket {
 		this.evenement = evenement ;
 	}
 
+	@Id
+	@GeneratedValue
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public Double getPrixPaye() {
 		return prixPaye;
 	}
 
-	public void setPrixAchete(Double prixPaye) {
+	public void setPrixPaye(Double prixPaye) {
 		this.prixPaye = prixPaye;
 	}
 	
-	@ManyToOne()
+	@ManyToOne
 	public Utilisateur getUtilisateur() {
 		return utilisateur;
 	}
@@ -52,7 +60,7 @@ public class Ticket {
 	/**
 	 * @return the place
 	 */
-	@ManyToOne()
+	@ManyToOne
 	public Place getPlace() {
 		return place;
 	}
@@ -67,6 +75,7 @@ public class Ticket {
 	/**
 	 * @return the evenement
 	 */
+	@ManyToOne
 	public Evenement getEvenement() {
 		return evenement;
 	}

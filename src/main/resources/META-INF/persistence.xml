@@ -32,7 +32,7 @@
 			<property name="jakarta.persistence.jdbc.password" value="" />
 			<property
 				name="jakarta.persistence.schema-generation.database.action"
-				value="update" />
+				value="create" />
 			<property name="jakarta.persistence.dialect"
 				value="org.hibernate.dialect.HSQLDialect" />
 			<property name="hibernate.show_sql" value="true" />
@@ -52,9 +52,9 @@
 			<property name="jakarta.persistence.jdbc.password" value="" />
 			<property
 				name="jakarta.persistence.schema-generation.database.action"
-				value="update" />
+				value="create" />
 			<property name="jakarta.persistence.dialect"
-				value="org.hibernate.dialect.MySQL8Dialect" />
+				value="org.hibernate.dialect.MySQLDialect(800)" />
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.c3p0.min_size" value="5" />
 			<property name="hibernate.c3p0.max_size" value="20" />

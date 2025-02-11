@@ -14,8 +14,14 @@ import jakarta.persistence.ManyToOne;
 public class Notification {
 	
 	private long id;
+
+	public void setContenu(String contenu) {
+		this.contenu = contenu;
+	}
+
+
 	private String contenu;
-	private Evenement event;
+	private Evenement evenement;
 	
 	private List<Utilisateur> utilisateurs = new ArrayList<>();
 
@@ -34,7 +40,7 @@ public class Notification {
 	public Long getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	
@@ -48,18 +54,18 @@ public class Notification {
 	
 	
 	@ManyToOne
-	public Evenement getEvent() {
-		return event;
+	public Evenement getEvenement() {
+		return evenement;
 	}
 	
-	public void setEvent(Evenement event) {
-		this.event = event;
+	public void setEvenement(Evenement evenement) {
+		this.evenement = evenement;
 	}
 	
 	/**
 	 * @return the utilisateurs
 	 */
-	@ManyToMany(mappedBy="utilisateurs")
+	@ManyToMany(mappedBy="notifs")
 	public List<Utilisateur> getUtilisateurs() {
 		return utilisateurs;
 	}

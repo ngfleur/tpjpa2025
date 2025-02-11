@@ -11,8 +11,7 @@ import jakarta.persistence.OneToMany;
 
 @Entity
 public class Place {
-	@Id
-	@GeneratedValue
+
 	private Long id;
 	
 	private String numeroEmplacement;
@@ -32,6 +31,15 @@ public class Place {
 		this.numeroEmplacement = numeroEmplacement;
 		this.salle = salle;
 	}
+	@Id
+	@GeneratedValue
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public String getNumeroEmplacement() {
 		return numeroEmplacement;
@@ -41,7 +49,7 @@ public class Place {
 		this.numeroEmplacement = emplacement;
 	}
 	
-	@OneToMany(mappedBy="tickets")
+	@OneToMany(mappedBy="place")
 	public List <Ticket> getTickets() {
 		return tickets;
 	}
@@ -56,7 +64,7 @@ public class Place {
 	/**
 	 * @return the salle
 	 */
-	@ManyToOne()
+	@ManyToOne
 	public Salle getSalle() {
 		return salle;
 	}

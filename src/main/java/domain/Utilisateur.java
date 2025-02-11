@@ -12,8 +12,6 @@ import jakarta.persistence.OneToMany;
 @Entity
 public class Utilisateur {
 	
-	@Id
-	@GeneratedValue
 	private Long id;
 	
 	private String name;
@@ -41,7 +39,15 @@ public class Utilisateur {
 		this.firstName = firstName;
 		this.email = email;
 	}
+	@Id
+	@GeneratedValue
+	public Long getId() {
+		return id;
+	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public String getName() {
 		return name;
@@ -69,7 +75,7 @@ public class Utilisateur {
 
 
 	// Getters pour la liste de tickets
-	@OneToMany(mappedBy="tickets")
+	@OneToMany(mappedBy="utilisateur")
 	public List <Ticket> getTickets() {
 		return tickets;
 	}
