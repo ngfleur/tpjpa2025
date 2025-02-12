@@ -17,7 +17,7 @@ private long id;
 private String nom;
 private Date date;
 private String lieu;
-private int prix;
+private Double prix;
 private String description;
 
 
@@ -30,7 +30,7 @@ private List<Notification> notifs = new ArrayList<Notification>();
 private List<Ticket> tickets = new ArrayList<Ticket>();
 
 
-public Evenement(String nom, Date date, String lieu, int prix, String description) {
+public Evenement(String nom, Date date, String lieu, Double prix, String description) {
 	this.nom = nom;
 	this.date = date;
 	this.lieu = lieu;
@@ -73,10 +73,10 @@ public void setLieu(String lieu) {
 	this.lieu = lieu;
 }
 
-public int getPrix() {
+public Double getPrix() {
 	return prix;
 }
-public void setPrix(int prix) {
+public void setPrix(Double prix) {
 	this.prix = prix;
 }
 

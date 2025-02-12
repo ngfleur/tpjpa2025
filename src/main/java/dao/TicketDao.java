@@ -15,6 +15,7 @@ public class TicketDao {
 
     private EntityManager manager;
 
+    
     public TicketDao(EntityManager manager) {
         this.manager = manager;
     }
@@ -23,13 +24,14 @@ public class TicketDao {
         String s = "select e from Ticket as e";
         return EntityManagerHelper.getEntityManager().createQuery(s).getResultList();
     }
-    public Ticket getTicketById(int id){
+    
+    public Ticket getTicketById(Long id){
             String s =  "select e from Ticket as e where e.id = :id";
             return EntityManagerHelper.getEntityManager().createQuery(s, Ticket.class).getSingleResult();
     }
 
 
-    // En cours
+    
     public void save (Double prixPaye, Utilisateur utilisateur, Place place, Evenement evenement){
 
         EntityTransaction tx = manager.getTransaction();
@@ -86,5 +88,69 @@ public class TicketDao {
             }
             throw e;
         }
+    }
+    
+    
+    public Ticket read(Long id) {
+    	
+    	EntityTransaction tx =  manager.getTransaction();
+    	
+    	Ticket t;
+    	
+    	try {
+    		
+    		tx.begin();
+    		
+    		 t = manager.find(Ticket.class, id);
+    		
+    		if( t == null) {
+    			throw new EntityNotFoundException("Ticket non trouvé pour l'id : " +id);
+    		}
+    		
+    		    		
+    		tx.commit();
+    		
+    	} catch(Exception e) {
+    		
+    		if(tx.isActive()) {
+    			tx.rollback();
+    		}
+    		
+    		throw e;
+    	}
+    	
+    	
+    	return t;
+    }
+    
+   
+    public void delete(Long id){
+    	
+    	EntityTransaction tx = manager.getTransaction();
+    	
+    	try {
+    		 
+    		tx.begin();
+    		
+    		// Récupération de l'entité existante grâce à son identifiant
+        	Ticket t = manager.find(Ticket.class, id);
+        	
+        	if(t == null) {
+        		throw new EntityNotFoundException("Ticket non trouvé pour l'id : " +id);
+        	}
+        	
+        	manager.remove (t);
+
+            tx.commit();
+    		
+    	}catch(Exception e) {
+    		
+    		if(tx.isActive()) {
+    			tx.rollback();			
+    		}
+    		
+    		throw e;
+    	}
+
     }
 }
