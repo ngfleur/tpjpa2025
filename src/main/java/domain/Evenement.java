@@ -98,7 +98,7 @@ public void setArtistes(List<Artiste> artistes) {
 }
 
 
-@ManyToMany(mappedBy = "evenements", cascade = CascadeType.PERSIST)
+@ManyToMany
 public List<GenreMusical> getGenreMusicaux() {
 	return genreMusicaux;
 }

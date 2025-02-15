@@ -3,6 +3,7 @@ package domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -42,7 +43,7 @@ public void setNom(String nom) {
 
 
 
-@ManyToMany
+@ManyToMany(mappedBy = "genreMusicaux", cascade = CascadeType.PERSIST)
 public List<Evenement> getEvenements() {
 	return evenements;
 }

@@ -15,12 +15,11 @@ public class Notification {
 	
 	private long id;
 
-	public void setContenu(String contenu) {
-		this.contenu = contenu;
-	}
+	
 
 
 	private String contenu;
+	
 	private Evenement evenement;
 	
 	private List<Utilisateur> utilisateurs = new ArrayList<>();
@@ -28,8 +27,9 @@ public class Notification {
 	
 		
 	
-	public Notification(String contenu) {
+	public Notification(String contenu, Evenement evenement) {
 		this.contenu = contenu;
+		this.evenement = evenement;
 	}
 	
 	public Notification() {
@@ -47,7 +47,7 @@ public class Notification {
 	public String getContenu() {
 		return contenu;
 	}
-	public void setNom(String contenu) {
+	public void setContenu(String contenu) {
 		this.contenu = contenu;
 	}
 	
