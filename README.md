@@ -1,5 +1,5 @@
 # Template de projet pour le TP JPA 2025 UniR
-#Compte rendu de l'avancement du projet
+# Compte rendu de l'avancement du projet
 
 ## Nous avons effectué une première modelisation en UML, que nous ajustons au fur et à mesure de l'avancement du projet en fonction du besoin qui se presente.
 
@@ -11,7 +11,7 @@
 
 
 # Des points que nous n'avons pas pris en compte lors de la modélisation et que nous comptons ajouter:
-##  Lors de notre modélisation, nous n'avons pas pris en compte les types de tickets et d'utilisateur, nous comptons donc ajouter à notre modélisation une classe TypeTicket qui héritera de la classe Ticket, et aussi une classe Admin et Organisateur qui hériteront de la classe Utilisateur. D'autres modifications pourront potentiellement être fait et cela en fonction du besoin qui se presentera.
+## Lors de notre modélisation, nous n'avons pas pris en compte les types de tickets et d'utilisateur, nous comptons donc ajouter à notre modélisation une classe TypeTicket qui héritera de la classe Ticket, et aussi une classe Admin et Organisateur qui hériteront de la classe Utilisateur. D'autres modifications pourront potentiellement être fait et cela en fonction du besoin qui se presentera.
 
 # Travail effectué : 
 ### Modélisation UML
