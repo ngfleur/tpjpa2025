@@ -16,23 +16,23 @@ public class TicketDao {
     private EntityManager manager;
 
     
-    public TicketDao(EntityManager manager) {
-        this.manager = manager;
+    public TicketDao() {
+        this.manager = EntityManagerHelper.getEntityManager();
     }
 
     public List<Ticket> getAllTicket(){
         String s = "select e from Ticket as e";
-        return EntityManagerHelper.getEntityManager().createQuery(s).getResultList();
+        return manager.createQuery(s).getResultList();
     }
     
     public Ticket getTicketById(Long id){
             String s =  "select e from Ticket as e where e.id = :id";
-            return EntityManagerHelper.getEntityManager().createQuery(s, Ticket.class).getSingleResult();
+            return manager.createQuery(s, Ticket.class).setParameter("id", id).getSingleResult();
     }
 
 
     
-    public void save (Double prixPaye, Utilisateur utilisateur, Place place, Evenement evenement){
+    public Ticket save (Ticket ticket, Utilisateur utilisateur, Place place, Evenement evenement){
 
         EntityTransaction tx = manager.getTransaction();
         try {
@@ -40,9 +40,9 @@ public class TicketDao {
             tx.begin();
 
             // Création de l'objet
-            Ticket t = new Ticket(prixPaye, utilisateur, place, evenement);
+           // Ticket t = new Ticket(prixPaye, utilisateur, place, evenement);
 
-            manager.persist(t);
+            manager.persist(ticket);
 
             // Validation de la transaction
             tx.commit();
@@ -53,10 +53,12 @@ public class TicketDao {
            }
            throw e;
         }
+        
+        return ticket;
     }
 
-    // A faire
-    public void update(Long id, Double prixPaye, Utilisateur utilisateur, Place place, Evenement evenement){
+  
+    public Ticket update(Ticket ticket, Utilisateur utilisateur, Place place, Evenement evenement){
 
         EntityTransaction tx = manager.getTransaction();
 
@@ -65,19 +67,19 @@ public class TicketDao {
 
             // Récupération de l'entité existante grâce à son identifiant
 
-            Ticket t = manager.find(Ticket.class, id);
+            Ticket oldTicket = manager.find(Ticket.class, ticket.getId());
 
             // Gestion dans le cas où aucun ticket n'a été trouvé
-            if (t == null) {
+            if (oldTicket == null) {
 
-                throw new EntityNotFoundException("Ticket non trouvé pour l'id : " +id);
+                throw new EntityNotFoundException("Ticket non trouvé pour l'id : " +ticket.getId());
             }
 
             // Mise à jour de l'objet
-            t.setPrixPaye(prixPaye);
-            t.setUtilisateur(utilisateur);
-            t.setPlace(place);
-            t.setEvenement(evenement);
+            oldTicket.setPrixPaye(ticket.getPrixPaye());
+            oldTicket.setUtilisateur(ticket.getUtilisateur());
+            oldTicket.setPlace(ticket.getPlace());
+            oldTicket.setEvenement(ticket.getEvenement());
 
             // Validation de la transaction
             tx.commit();
@@ -88,6 +90,8 @@ public class TicketDao {
             }
             throw e;
         }
+        
+        return ticket;
     }
     
     

@@ -17,21 +17,24 @@ public class UtilisateurDao {
 
 	private EntityManager manager;
 	
-	public UtilisateurDao(EntityManager manager) {
-		this.manager = manager;	
+	public UtilisateurDao() {
+		this.manager = EntityManagerHelper.getEntityManager();
 	}
 	
+	/*public UtilisateurDao(EntityManager manager) {
+		this.manager = manager;	
+	}
+	*/
 	public List <Utilisateur> getAllUtilisateur(){
 		
 		String s = "select u from Utilisateur as u";
-		return EntityManagerHelper.getEntityManager().createQuery(s).getResultList();
+		return manager.createQuery(s).getResultList();
 		
 	}
 	
 	public Utilisateur getUtilisateurById(Long id) {
-		
 		String s = "select u from Utilisateur as u where u.id = :id";
-		return EntityManagerHelper.getEntityManager().createQuery(s, Utilisateur.class).getSingleResult();
+		return EntityManagerHelper.getEntityManager().createQuery(s, Utilisateur.class).setParameter("id", id).getSingleResult();
 	}
 	
 	
@@ -109,7 +112,7 @@ public class UtilisateurDao {
 	
 	
 	
-	public void save (String name, String firstName, String email) {
+	public Utilisateur save (Utilisateur utilisateur) {
 		
 		EntityTransaction tx = manager.getTransaction();
 		
@@ -118,10 +121,6 @@ public class UtilisateurDao {
 			// Demarrer la transaction
 			
 			tx.begin();
-			
-			// Demarrer la transaction
-			
-			Utilisateur utilisateur = new Utilisateur (name, firstName, email);
 			
 			manager.persist(utilisateur);
 			
@@ -135,29 +134,31 @@ public class UtilisateurDao {
 				}
 				throw e;
 		}
+		return utilisateur;
 		
 	}
 	
-	public void update (Long id, String name, String firstName, String email) {
+	public Utilisateur update (Utilisateur utilisateur) {
 		
 		EntityTransaction tx = manager.getTransaction();
 		
 		try {
 			
+			// Demarrer la transaction
 			tx.begin();
 			
-			// Demarrer la transaction
 			
-			Utilisateur utilisateur = manager.find(Utilisateur.class, id);
 			
-			if (utilisateur == null) {
-				throw new EntityNotFoundException("Utilisateur non trouvé pour l'id : " +id);
+			Utilisateur oldUtilisateur = manager.find(Utilisateur.class, utilisateur.getId());
+			
+			if (oldUtilisateur == null) {
+				throw new EntityNotFoundException("Utilisateur non trouvé pour l'id : " +utilisateur.getId());
             }
 			
 			
-			utilisateur.setName(name);
-			utilisateur.setFirstName(firstName);
-			utilisateur.setEmail(email);
+			oldUtilisateur.setName(utilisateur.getName());
+			oldUtilisateur.setFirstName(utilisateur.getFirstName());
+			oldUtilisateur.setEmail(utilisateur.getEmail());
 
 			
 
@@ -169,6 +170,8 @@ public class UtilisateurDao {
 				}
 				throw e;
 		}
+		
+		return utilisateur;
 		
 	}
 	
