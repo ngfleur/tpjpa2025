@@ -1,55 +1,50 @@
 package domain;
 
+import jakarta.persistence.*;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
+import java.util.List;
 
 @Entity
 public class Notification {
-	
+
 	private long id;
-	private String contenu;
-	private Evenement event;
+	private String message;
+	private List<Utilisateur> utilisateurs;
+	private Evenement evenement;
 
-	
-	
+	@Id
+	public Long getId() {
+		return id;
+	}
 
-public Notification(String contenu) {
-	this.contenu = contenu;
-}
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-public Notification() {
-}
+	public String getMessage() {
+		return message;
+	}
 
-@Id
-@GeneratedValue
-public Long getId() {
-	return id;
-}
-public void setId(Long id) {
-	this.id = id;
-}
+	public void setMessage(String message) {
+		this.message = message;
+	}
 
-public String getContenu() {
-	return contenu;
-}
-public void setNom(String contenu) {
-	this.contenu = contenu;
-}
+	@ManyToMany(mappedBy = "notifications", cascade = CascadeType.PERSIST)
+	public List<Utilisateur> getUtilisateurs() {
+		return utilisateurs;
+	}
 
+	public void setUtilisateurs(List<Utilisateur> utilisateurs) {
+		this.utilisateurs = utilisateurs;
+	}
 
+	@ManyToOne
+	@JoinColumn(name = "evenement_id")  // Foreign key to Evenement table
+	public Evenement getEvenement() {
+		return evenement;
+	}
 
-@ManyToOne
-public Evenement getEvent() {
-	return event;
-}
-
-public void setEvent(Evenement event) {
-	this.event = event;
-}
-
-
+	public void setEvenement(Evenement evenement) {
+		this.evenement = evenement;
+	}
 }

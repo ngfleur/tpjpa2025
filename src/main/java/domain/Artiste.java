@@ -1,55 +1,50 @@
 package domain;
 
-
-import java.util.ArrayList;
-import java.util.List;
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import java.util.List;
 
 @Entity
 public class Artiste {
-	
+
 	private long id;
 	private String nom;
-	private List<Evenement> evenements = new ArrayList<Evenement>();
+	private String biographie;
+	private List<Evenement> evenements;
 
-	
-public Artiste() {
-		
-}
+	@Id
+	public Long getId() {
+		return id;
+	}
 
-public Artiste(String nom) {
-	this.nom = nom;
-}
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-@Id
-@GeneratedValue
-public Long getId() {
-	return id;
-}
-public void setId(Long id) {
-	this.id = id;
-}
+	public String getNom() {
+		return nom;
+	}
 
-public String getNom() {
-	return nom;
-}
-public void setNom(String nom) {
-	this.nom = nom;
-}
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
 
+	public String getBiographie() {
+		return biographie;
+	}
 
+	public void setBiographie(String biographie) {
+		this.biographie = biographie;
+	}
 
-@ManyToMany
-public List<Evenement> getEvenements() {
-	return evenements;
-}
+	@ManyToMany(mappedBy = "artistes", cascade = CascadeType.PERSIST)
+	public List<Evenement> getEvenements() {
+		return evenements;
+	}
 
-public void setEvenements(List<Evenement> evenements) {
-	this.evenements = evenements;
-}
-
+	public void setEvenements(List<Evenement> evenements) {
+		this.evenements = evenements;
+	}
 }
