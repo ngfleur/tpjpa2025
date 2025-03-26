@@ -1,41 +1,79 @@
 package domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Place {
 
-    private long id;
-    private String numeroPlace;
-    private Salle salle;
+	private Long id;
+	
+	private String numeroEmplacement;
+	
+	private List <Ticket> tickets = new ArrayList<Ticket>();
+	
+	private Salle salle;
+	
+	//Constructeur sans paramètre
+	public Place() {
+		
+	}
 
-    @Id
-    public Long getId() {
-        return id;
-    }
+	//Constructeur 
+	public Place(String numeroEmplacement, Salle salle) {
+		
+		this.numeroEmplacement = numeroEmplacement;
+		this.salle = salle;
+	}
+	@Id
+	@GeneratedValue
+	public Long getId() {
+		return id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getNumeroPlace() {
-        return numeroPlace;
-    }
+	public String getNumeroEmplacement() {
+		return numeroEmplacement;
+	}
 
-    public void setNumeroPlace(String numeroPlace) {
-        this.numeroPlace = numeroPlace;
-    }
+	public void setNumeroEmplacement(String emplacement) {
+		this.numeroEmplacement = emplacement;
+	}
+	
+	@OneToMany(mappedBy="place")
+	public List <Ticket> getTickets() {
+		return tickets;
+	}
 
-    @ManyToOne
-    @JoinColumn(name = "salle_id")  // Foreign key to Salle table
-    public Salle getSalle() {
-        return salle;
-    }
+	/**
+	 * @param tickets the tickets to set
+	 */
+	public void setTickets(List <Ticket> tickets) {
+		this.tickets = tickets;
+	}
 
-    public void setSalle(Salle salle) {
-        this.salle = salle;
-    }
+	/**
+	 * @return the salle
+	 */
+	@ManyToOne
+	public Salle getSalle() {
+		return salle;
+	}
+
+	/**
+	 * @param salle the salle to set
+	 */
+	public void setSalle(Salle salle) {
+		this.salle = salle;
+	}
+
 }

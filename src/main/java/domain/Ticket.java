@@ -1,52 +1,89 @@
 package domain;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.JoinColumn;
 
 @Entity
 public class Ticket {
+	
+	private Long id;
+	
+	private Double prixPaye;
+	
+	private Utilisateur utilisateur;
+	private Evenement evenement;
+	
+	private Place place;
+	
+	//Constructeur sans paramètre
+	public Ticket() {
+		
+	}
+	
+	//Constructeur avec paramètre
+	public Ticket(Double prixPaye, Utilisateur utilisateur, Place place, Evenement evenement) {
+		this.prixPaye = prixPaye;
+		this.utilisateur = utilisateur;
+		this.place = place;
+		this.evenement = evenement ;
+	}
 
-    private long id;
-    private double prix;
-    private Utilisateur utilisateur;
-    private Evenement evenement;
+	@Id
+	@GeneratedValue
+	public Long getId() {
+		return id;
+	}
 
-    @Id
-    public Long getId() {
-        return id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public Double getPrixPaye() {
+		return prixPaye;
+	}
 
-    public double getPrix() {
-        return prix;
-    }
+	public void setPrixPaye(Double prixPaye) {
+		this.prixPaye = prixPaye;
+	}
+	
+	@ManyToOne
+	public Utilisateur getUtilisateur() {
+		return utilisateur;
+	}
 
-    public void setPrix(double prix) {
-        this.prix = prix;
-    }
+	public void setUtilisateur(Utilisateur utilisateur) {
+		this.utilisateur = utilisateur;
+	}
 
-    @ManyToOne
-    @JoinColumn(name = "utilisateur_id")  // Foreign key to Utilisateur table
-    public Utilisateur getUtilisateur() {
-        return utilisateur;
-    }
+	/**
+	 * @return the place
+	 */
+	@ManyToOne
+	public Place getPlace() {
+		return place;
+	}
 
-    public void setUtilisateur(Utilisateur utilisateur) {
-        this.utilisateur = utilisateur;
-    }
+	/**
+	 * @param place the place to set
+	 */
+	public void setPlace(Place place) {
+		this.place = place;
+	}
 
-    @ManyToOne
-    @JoinColumn(name = "evenement_id")  // Foreign key to Evenement table
-    public Evenement getEvenement() {
-        return evenement;
-    }
+	/**
+	 * @return the evenement
+	 */
+	@ManyToOne
+	public Evenement getEvenement() {
+		return evenement;
+	}
 
-    public void setEvenement(Evenement evenement) {
-        this.evenement = evenement;
-    }
+	/**
+	 * @param evenement the evenement to set
+	 */
+	public void setEvenement(Evenement evenement) {
+		this.evenement = evenement;
+	}
 }

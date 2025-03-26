@@ -1,41 +1,56 @@
 package domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
-import java.util.List;
 
 @Entity
 public class GenreMusical {
-
+	
 	private long id;
 	private String nom;
-	private List<Evenement> evenements;
+	private List<Evenement> evenements = new ArrayList<Evenement>();
 
-	@Id
-	public Long getId() {
-		return id;
-	}
+	
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+public GenreMusical(String nom) {
+	this.nom = nom;
+}
 
-	public String getNom() {
-		return nom;
-	}
+public GenreMusical() {
+}
 
-	public void setNom(String nom) {
-		this.nom = nom;
-	}
+@Id
+@GeneratedValue
+public Long getId() {
+	return id;
+}
+public void setId(Long id) {
+	this.id = id;
+}
 
-	@ManyToMany(mappedBy = "genreMusicaux", cascade = CascadeType.PERSIST)
-	public List<Evenement> getEvenements() {
-		return evenements;
-	}
+public String getNom() {
+	return nom;
+}
+public void setNom(String nom) {
+	this.nom = nom;
+}
 
-	public void setEvenements(List<Evenement> evenements) {
-		this.evenements = evenements;
-	}
+
+
+@ManyToMany(mappedBy = "genreMusicaux", cascade = CascadeType.PERSIST)
+public List<Evenement> getEvenements() {
+	return evenements;
+}
+
+public void setEvenements(List<Evenement> evenements) {
+	this.evenements = evenements;
+}
+
+
 }
