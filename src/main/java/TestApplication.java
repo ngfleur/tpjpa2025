@@ -21,6 +21,10 @@ import java.util.Set;
 import io.swagger.v3.jaxrs2.integration.resources.OpenApiResource;
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
+import rest.EvenementRessource;
+import rest.PlaceRessource;
+import rest.SalleRessource;
+import rest.TicketRessource;
 import rest.UtilisateurRessource;
 
 @ApplicationPath("/")
@@ -33,6 +37,11 @@ public class TestApplication extends Application {
 
 	        clazzes.add(OpenApiResource.class);
 	        clazzes.add(UtilisateurRessource.class);
+	        clazzes.add(TicketRessource.class);
+	        clazzes.add(SalleRessource.class);
+	        clazzes.add(PlaceRessource.class);
+	        clazzes.add(EvenementRessource.class);
+
 //	        clazzes.add(AcceptHeaderOpenApiResource.class);
 	         
 

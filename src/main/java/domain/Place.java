@@ -65,6 +65,7 @@ public class Place {
 	 * @return the salle
 	 */
 	@ManyToOne
+	@com.fasterxml.jackson.annotation.JsonIgnoreProperties("places")
 	public Salle getSalle() {
 		return salle;
 	}

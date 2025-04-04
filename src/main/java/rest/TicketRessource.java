@@ -39,7 +39,7 @@ public class TicketRessource extends Application {
     }
 
     @POST
-    public Response addTicket(@Parameter(description = "Ticket object", required = true) Ticket ticket) {
+    public Response addTicket(Ticket ticket) {
     	
         ticketDao.save(ticket, ticket.getUtilisateur(), ticket.getPlace(), ticket.getEvenement());
         return Response.ok().entity("Ticket ajouté avec succès").build();

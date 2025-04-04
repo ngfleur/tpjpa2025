@@ -19,21 +19,21 @@ public class EvenementDao {
 	
 	private EntityManager manager;
 	
-	public EvenementDao(EntityManager manager) {
-		this.manager = manager;	
+	public EvenementDao() {
+		this.manager = EntityManagerHelper.getEntityManager();	
 	}
 	
 	public List <Evenement> getAllEvenement(){
 		
 		String s = "select e from Evenement as e";
-		return EntityManagerHelper.getEntityManager().createQuery(s).getResultList();
+		return manager.createQuery(s).getResultList();
 		
 	}
 	
 	public Evenement getEvenementById(Long id) {
 		
 		String s = "select e from Evenement as e where e.id = :id";
-		return EntityManagerHelper.getEntityManager().createQuery(s, Evenement.class).getSingleResult();
+		return manager.createQuery(s, Evenement.class).getSingleResult();
 	}
 	
 	
@@ -184,7 +184,7 @@ public class EvenementDao {
 	}
 	
 	
-	public void save (String nom, Date date, String lieu, Double prix, String description) {
+	public void save (Evenement event) {
 		
 		EntityTransaction tx = manager.getTransaction();
 		
@@ -196,7 +196,7 @@ public class EvenementDao {
 			
 			// Demarrer la transaction
 			
-			Evenement event = new Evenement(nom, date, lieu, prix, description);
+			//Evenement event = new Evenement(nom, date, lieu, prix, description);
 			
 			manager.persist(event);
 			
