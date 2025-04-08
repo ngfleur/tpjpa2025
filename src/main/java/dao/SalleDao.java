@@ -12,23 +12,23 @@ import jpa.EntityManagerHelper;
 
 public class SalleDao {
 	
-private EntityManager manager;
-	
-	public SalleDao(EntityManager manager) {
-		this.manager = manager;	
+	private EntityManager manager;
+
+	public SalleDao() {
+		this.manager = EntityManagerHelper.getEntityManager();	
 	}
 	
 	public List <Salle> getAllSalle(){
 		
-		String s = "select sa from Salle as u";
-		return EntityManagerHelper.getEntityManager().createQuery(s).getResultList();
+		String s = "select sa from Salle as sa";
+		return manager.createQuery(s).getResultList();
 		
 	}
 	
 	public Salle getSalleById(Long id) {
 		
 		String s = "select sa from Salle as sa where sa.id = :id";
-		return EntityManagerHelper.getEntityManager().createQuery(s, Salle.class).getSingleResult();
+		return manager.createQuery(s, Salle.class).setParameter("id", id).getSingleResult();
 	}
 	
 	
@@ -69,7 +69,7 @@ private EntityManager manager;
 	}
 	
 	
-	public void save (String name, String adresseSalle) {
+	public void save (Salle salle) {
 		
 		EntityTransaction tx = manager.getTransaction();
 		
@@ -81,7 +81,7 @@ private EntityManager manager;
 			
 			// Demarrer la transaction
 			
-			Salle salle = new Salle (name, adresseSalle);
+			//Salle salle = new Salle (name, adresseSalle);
 			
 			manager.persist(salle);
 			
