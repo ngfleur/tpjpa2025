@@ -3,6 +3,7 @@ package domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import enums.RoleUtilisateur;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -19,6 +20,10 @@ public class Utilisateur {
 	private String firstName;
 	
 	private String email;
+
+
+	//role: admin, organisateur, participant
+	private RoleUtilisateur role;
 	
 	// Liste des tickets achétés par un utilisateur
 	private List <Ticket> tickets = new ArrayList <Ticket>(); 
@@ -38,6 +43,8 @@ public class Utilisateur {
 		this.name = name;
 		this.firstName = firstName;
 		this.email = email;
+		this.role = role;
+
 	}
 	@Id
 	@GeneratedValue
@@ -72,6 +79,10 @@ public class Utilisateur {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+	public RoleUtilisateur getRole() {return role;}
+
+	public void setRole(RoleUtilisateur role) {this.role = role;}
 
 
 	// Getters pour la liste de tickets
