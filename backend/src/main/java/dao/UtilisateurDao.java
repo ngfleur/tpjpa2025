@@ -77,6 +77,41 @@ public class UtilisateurDao {
 		return utilisateur;
 	}
 
+	public Utilisateur getUtilisateurByEmail(String email) {
+		EntityTransaction tx = manager.getTransaction();
+		Utilisateur utilisateur;
+		try {
+			tx.begin();
+			TypedQuery<Utilisateur> query = manager.createQuery(
+					"select u from Utilisateur u where u.email = :email", Utilisateur.class);
+			query.setParameter("email", email);
+			utilisateur = query.getSingleResult();
+			tx.commit();
+		} catch (Exception e) {
+			if (tx.isActive()) tx.rollback();
+			throw e;
+		}
+		return utilisateur;
+	}
+
+	public Utilisateur authentifier(String email, String mdp) {
+		EntityTransaction tx = manager.getTransaction();
+		Utilisateur utilisateur;
+		try {
+			tx.begin();
+			TypedQuery<Utilisateur> query = manager.createQuery(
+					"select u from Utilisateur u where u.email = :email and u.mdp = :mdp", Utilisateur.class);
+			query.setParameter("email", email);
+			query.setParameter("mdp", mdp);
+			utilisateur = query.getSingleResult();
+			tx.commit();
+		} catch (Exception e) {
+			if (tx.isActive()) tx.rollback();
+			throw e;
+		}
+		return utilisateur;
+	}
+
 	public Utilisateur update(Utilisateur utilisateur) {
 		EntityTransaction tx = manager.getTransaction();
 		try {
@@ -89,6 +124,7 @@ public class UtilisateurDao {
 			old.setFirstName(utilisateur.getFirstName());
 			old.setEmail(utilisateur.getEmail());
 			old.setRole(utilisateur.getRole());
+			old.setMdp(utilisateur.getMdp()); // Ajout de la mise à jour du mot de passe
 			tx.commit();
 		} catch (Exception e) {
 			if (tx.isActive()) tx.rollback();

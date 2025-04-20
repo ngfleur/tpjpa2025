@@ -7,6 +7,8 @@ public class UtilisateurDtoIn {
     private String firstName;
     private String email;
     private RoleUtilisateur role;
+    private String mdp;
+
 
     // Getters & Setters
     public String getName() { return name; }
@@ -20,4 +22,8 @@ public class UtilisateurDtoIn {
 
     public RoleUtilisateur getRole() { return role; }
     public void setRole(RoleUtilisateur role) { this.role = role; }
+
+    public String getMdp() { return mdp; }
+    public void setMdp(String mdp) { this.mdp = mdp; }
 }
+

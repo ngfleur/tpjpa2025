@@ -21,6 +21,8 @@ public class Utilisateur {
 	
 	private String email;
 
+	private String mdp;
+
 
 	//role: admin, organisateur, participant
 	private RoleUtilisateur role;
@@ -39,13 +41,14 @@ public class Utilisateur {
 	}
 	
 	//Constructeur paramétré
-	public Utilisateur(String name, String firstName, String email) {
-		this.name = name;
-		this.firstName = firstName;
-		this.email = email;
-		this.role = role;
+	public Utilisateur(String name, String firstName, String email, String mdp) {
+        this.name = name;
+        this.firstName = firstName;
+        this.email = email;
+        this.mdp = mdp;
+        this.role = role;
+    }
 
-	}
 	@Id
 	@GeneratedValue
 	public Long getId() {
@@ -84,6 +87,13 @@ public class Utilisateur {
 
 	public void setRole(RoleUtilisateur role) {this.role = role;}
 
+	public String getMdp() {
+    return mdp;
+}
+
+public void setMdp(String mdp) {
+    this.mdp = mdp;
+}
 
 	// Getters pour la liste de tickets
 	@OneToMany(mappedBy="utilisateur")
