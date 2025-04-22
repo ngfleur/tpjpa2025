@@ -2,12 +2,15 @@ package dao;
 
 import java.util.List;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import domain.Notification;
 import domain.Ticket;
 import domain.Utilisateur;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import jpa.EntityManagerHelper;
 
@@ -122,6 +125,10 @@ public class UtilisateurDao {
 			
 			tx.begin();
 			
+			 // Hasher le mot de passe avant de le sauvegarder
+	        String hashed = BCrypt.hashpw(utilisateur.getMotDePasse(), BCrypt.gensalt());
+	        utilisateur.setMotDePasse(hashed);
+			
 			manager.persist(utilisateur);
 			
 			//Fin de la transaction
@@ -235,6 +242,21 @@ public class UtilisateurDao {
     	}
 		
 	}
+	
+	public Utilisateur seConnecter(String email, String motDePasse) {
+	    try {
+	        TypedQuery<Utilisateur> query = manager.createQuery(
+	            "SELECT u FROM Utilisateur u WHERE u.email = :email AND u.motDePasse = :mdp", Utilisateur.class
+	        );
+	        query.setParameter("email", email);
+	        query.setParameter("mdp", motDePasse);
+
+	        return query.getSingleResult();
+	    } catch (NoResultException e) {
+	        return null; // mauvais identifiants
+	    }
+	}
+
 
 
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import dao.UtilisateurDao;
 import domain.Utilisateur;
+import dto.LoginDto;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -56,5 +57,18 @@ public class UtilisateurRessource {
 	        utilisateurDao.update( utilisateur);
 	        return Response.ok( utilisateur).build();
 	    }
+	    
+	    @POST
+	    @Path("/login")
+	    public Response login(LoginDto loginDto) {
+	        Utilisateur u = utilisateurDao.seConnecter(loginDto.email, loginDto.motDePasse);
+	        if (u != null) {
+	            return Response.ok(u).build();
+	        } else {
+	            return Response.status(Response.Status.UNAUTHORIZED)
+	                           .entity("Email ou mot de passe incorrect").build();
+	        }
+	    }
+
 
 }

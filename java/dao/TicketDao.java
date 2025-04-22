@@ -19,6 +19,7 @@ public class TicketDao {
     public TicketDao() {
         this.manager = EntityManagerHelper.getEntityManager();
     }
+    
 
     public List<Ticket> getAllTicket(){
         String s = "select e from Ticket as e";
@@ -41,7 +42,29 @@ public class TicketDao {
 
             // Création de l'objet
            // Ticket t = new Ticket(prixPaye, utilisateur, place, evenement);
+            
+            // Rechercher les entités en base pour les attacher au contexte
+            Utilisateur u = manager.find(Utilisateur.class, utilisateur.getId());
+            Place p = manager.find(Place.class, place.getId());
+            Evenement e = manager.find(Evenement.class, evenement.getId());
+            
+            // Sécurité : vérifier que les objets existent
+            if (u == null) {
+                throw new EntityNotFoundException("Utilisateur introuvable.");
+            } else if(p == null) {
+                throw new EntityNotFoundException("Place introuvable.");
 
+            	
+            }else if(e == null) {
+                throw new EntityNotFoundException("Evenement introuvable.");
+
+            }
+            
+         // Attacher les objets liés
+            ticket.setUtilisateur(u);
+            ticket.setPlace(p);
+            ticket.setEvenement(e);
+            
             manager.persist(ticket);
 
             // Validation de la transaction
@@ -157,4 +180,9 @@ public class TicketDao {
     	}
 
     }
+    
+    public EntityManager getManager() {
+        return this.manager;
+    }
+
 }
