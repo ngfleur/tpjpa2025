@@ -3,8 +3,7 @@ package domain;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import enums.RoleUtilisateur;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -21,9 +20,12 @@ public class Utilisateur {
 	private String firstName;
 	
 	private String email;
-	
-	private String motDePasse;
 
+	private String mdp;
+
+
+	//role: admin, organisateur, participant
+	private RoleUtilisateur role;
 	
 	// Liste des tickets achétés par un utilisateur
 	private List <Ticket> tickets = new ArrayList <Ticket>(); 
@@ -39,11 +41,14 @@ public class Utilisateur {
 	}
 	
 	//Constructeur paramétré
-	public Utilisateur(String name, String firstName, String email) {
-		this.name = name;
-		this.firstName = firstName;
-		this.email = email;
-	}
+	public Utilisateur(String name, String firstName, String email, String mdp) {
+        this.name = name;
+        this.firstName = firstName;
+        this.email = email;
+        this.mdp = mdp;
+        this.role = role;
+    }
+
 	@Id
 	@GeneratedValue
 	public Long getId() {
@@ -78,14 +83,17 @@ public class Utilisateur {
 		this.email = email;
 	}
 
-	@JsonIgnore // Pour pas qu'on retourne le mot de passe
-	public String getMotDePasse() {
-		return motDePasse;
-	}
-	
-	public void setMotDePasse(String motDePasse) {
-		this.motDePasse = motDePasse;
-	}
+	public RoleUtilisateur getRole() {return role;}
+
+	public void setRole(RoleUtilisateur role) {this.role = role;}
+
+	public String getMdp() {
+    return mdp;
+}
+
+public void setMdp(String mdp) {
+    this.mdp = mdp;
+}
 
 	// Getters pour la liste de tickets
 	@OneToMany(mappedBy="utilisateur")

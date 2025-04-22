@@ -1,74 +1,76 @@
 package rest;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import dao.UtilisateurDao;
 import domain.Utilisateur;
-import dto.LoginDto;
+import dto.UtilisateurDtoIn;
+import dto.UtilisateurDtoOut;
 import io.swagger.v3.oas.annotations.Parameter;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.DELETE;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.PUT;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 
 @Path("utilisateur")
 @Produces("application/json")
 @Consumes("application/json")
-
 public class UtilisateurRessource {
-	
-	
-	    private final UtilisateurDao utilisateurDao = new UtilisateurDao();
 
-	    @GET
-	    @Path("/{id}")
-	    public Utilisateur getUtilisateurById(@PathParam("id") Long id) {
-	        return utilisateurDao.getUtilisateurById(id);
-	    }
+    private final UtilisateurDao utilisateurDao = new UtilisateurDao();
 
-	    @GET
-	    public List<Utilisateur> getAllUtilisateurs() {
-	        return utilisateurDao.getAllUtilisateur();
-	    }
+    @GET
+    @Path("/{id}")
+    public Response getUtilisateurById(@PathParam("id") Long id) {
+        Utilisateur user = utilisateurDao.getUtilisateurById(id);
+        if (user == null) {
+            return Response.status(Response.Status.NOT_FOUND).entity("Utilisateur non trouvé").build();
+        }
+        return Response.ok(new UtilisateurDtoOut(user)).build();
+    }
 
-	    @POST
-	    public Response addUtilisateur(@Parameter(description = "Utilisateur object", required = true) Utilisateur utilisateur) {
-	        utilisateurDao.save(utilisateur);
-	        return Response.ok().entity("Utilisateur ajouté avec succès").build();
-	    }
+    @GET
+    public List<UtilisateurDtoOut> getAllUtilisateurs() {
+        return utilisateurDao.getAllUtilisateur().stream()
+                .map(UtilisateurDtoOut::new)
+                .collect(Collectors.toList());
+    }
 
-	    @DELETE
-	    @Path("/{id}")
-	    public Response deleteUtilisateur(@PathParam("id") Long id) {
-	        
-	        utilisateurDao.delete( id);
-	        return Response.ok().entity("utilisateur supprimé avec succès").build();
-	    }
+    @POST
+    public Response addUtilisateur(
+            @Parameter(description = "Utilisateur à ajouter", required = true) UtilisateurDtoIn dtoIn) {
+        Utilisateur user = new Utilisateur();
+        user.setName(dtoIn.getName());
+        user.setFirstName(dtoIn.getFirstName());
+        user.setEmail(dtoIn.getEmail());
+        user.setRole(dtoIn.getRole());
+        user.setMdp(dtoIn.getMdp());
 
-	    @PUT
-	    @Path("/{id}")
-	    public Response updateUtilisateur(@PathParam("id") Long id, Utilisateur utilisateur) {
+        utilisateurDao.save(user);
+        return Response.status(Response.Status.CREATED).entity("Utilisateur ajouté avec succès").build();
+    }
 
-	        utilisateurDao.update( utilisateur);
-	        return Response.ok( utilisateur).build();
-	    }
-	    
-	    @POST
-	    @Path("/login")
-	    public Response login(LoginDto loginDto) {
-	        Utilisateur u = utilisateurDao.seConnecter(loginDto.email, loginDto.motDePasse);
-	        if (u != null) {
-	            return Response.ok(u).build();
-	        } else {
-	            return Response.status(Response.Status.UNAUTHORIZED)
-	                           .entity("Email ou mot de passe incorrect").build();
-	        }
-	    }
+    @PUT
+    @Path("/{id}")
+    public Response updateUtilisateur(@PathParam("id") Long id, UtilisateurDtoIn dtoIn) {
+        Utilisateur user = utilisateurDao.getUtilisateurById(id);
+        if (user == null) {
+            return Response.status(Response.Status.NOT_FOUND).entity("Utilisateur non trouvé").build();
+        }
 
+        user.setName(dtoIn.getName());
+        user.setFirstName(dtoIn.getFirstName());
+        user.setEmail(dtoIn.getEmail());
+        user.setRole(dtoIn.getRole());
+        user.setMdp(dtoIn.getMdp());
 
+        utilisateurDao.update(user);
+        return Response.ok("Utilisateur mis à jour avec succès").build();
+    }
+
+    @DELETE
+    @Path("/{id}")
+    public Response deleteUtilisateur(@PathParam("id") Long id) {
+        utilisateurDao.delete(id);
+        return Response.ok("Utilisateur supprimé avec succès").build();
+    }
 }

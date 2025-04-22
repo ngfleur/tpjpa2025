@@ -1,79 +1,80 @@
 package rest;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import dao.PlaceDao;
 import domain.Place;
 import domain.Salle;
 import domain.Ticket;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.DELETE;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.PUT;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
+import dto.PlaceDtoIn;
+import dto.PlaceDtoOut;
+import dto.SalleDtoOut;  // Assurez-vous d'avoir un DTO pour Salle
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 
 @Path("place")
 @Produces("application/json")
 @Consumes("application/json")
 public class PlaceRessource {
-	
+
 	private final PlaceDao placeDao = new PlaceDao();
-	
+
 	@GET
 	@Path("/{id}")
-	public Place getPlaceById(@PathParam("id") Long id) {
-		
-		return placeDao.getPlaceById(id);	
+	public PlaceDtoOut getPlaceById(@PathParam("id") Long id) {
+		Place place = placeDao.getPlaceById(id);
+		return convertToDtoOut(place);
 	}
-	
+
 	@GET
-	public List <Place> getAllPlaces(){
-		return placeDao.getAllPlaces();
+	public List<PlaceDtoOut> getAllPlaces() {
+		return placeDao.getAllPlaces().stream()
+				.map(this::convertToDtoOut)
+				.collect(Collectors.toList());
 	}
-	
+
 	@POST
-	public Response addPlace (Place place) {
-		
+	public Response addPlace(PlaceDtoIn placeDtoIn) {
+		Salle salle = placeDao.getSalleById(placeDtoIn.getSalleId());
+		Place place = new Place(placeDtoIn.getNumeroEmplacement(), salle);
 		placeDao.save(place);
-		return Response.ok().entity("Place ajoutée avec succès").build();		
-		
+		return Response.status(Response.Status.CREATED).entity("Place ajoutée avec succès").build();
 	}
-	
+
 	@PUT
 	@Path("/{id}")
-	public Response updatePlace (@PathParam("id") Long id, Place place ) {
-		
-		//Pour charger la salle existante depuis la base de données
-		Salle salle = place.getSalle();
-		
-		placeDao.update(id, place.getNumeroEmplacement(), salle);
-		return Response.ok().entity("Mise à jour effectuée avec succès").build();
-		
+	public Response updatePlace(@PathParam("id") Long id, PlaceDtoIn placeDtoIn) {
+		Salle salle = placeDao.getSalleById(placeDtoIn.getSalleId());
+		placeDao.update(id, placeDtoIn.getNumeroEmplacement(), salle);
+		return Response.ok("Mise à jour effectuée avec succès").build();
 	}
-	
+
 	@DELETE
 	@Path("/{id}")
 	public Response deletePlace(@PathParam("id") Long id) {
 		placeDao.delete(id);
-		return Response.ok().entity("Suppression effectuée avec succès").build();
+		return Response.ok("Suppression effectuée avec succès").build();
 	}
 
-	// Récupérer les tickets associés à une place
 	@GET
 	@Path("/{id}/tickets")
 	public List<Ticket> getTicketsByPlace(@PathParam("id") Long id) {
-	    return placeDao.getTicketsByPlaceId(id);
+		return placeDao.getTicketsByPlaceId(id);
 	}
 
-	// Récupérer la salle associée à une place
 	@GET
 	@Path("/{id}/salle")
 	public Salle getSalleByPlace(@PathParam("id") Long id) {
-	    return placeDao.getSalleByPlaceId(id);
+		return placeDao.getSalleByPlaceId(id);
 	}
 
+	private PlaceDtoOut convertToDtoOut(Place place) {
+		return new PlaceDtoOut(
+				place.getId(),
+				place.getNumeroEmplacement(),
+				place.getSalle() != null ? place.getSalle().getId() : null
+		);
+	}
 }
+

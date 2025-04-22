@@ -1,8 +1,10 @@
 package domain;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import enums.StatutEvenement;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,119 +15,179 @@ import jakarta.persistence.OneToMany;
 @Entity
 public class Evenement {
 
-private long id;
-private String nom;
-private Date date;
-private String lieu;
-private Double prix;
-private String description;
+	private long id;
+	private String titre;
+	private Date dateDebut;
+	private Date dateFin;
+	private int capacite;
+	private int inscrits;
+	private StatutEvenement statut;
 
+	private String lieu;
+	private Double prix;
+	private String description;
 
-private List<Artiste> artistes = new ArrayList<Artiste>();
+	private List<Artiste> artistes = new ArrayList<>();
+	private List<GenreMusical> genreMusicaux = new ArrayList<>();
+	private List<Notification> notifs = new ArrayList<>();
+	private List<Ticket> tickets = new ArrayList<>();
 
-private List<GenreMusical> genreMusicaux = new ArrayList<GenreMusical>();
+	// Constructeur mis à jour
+	public Evenement(String titre, Date dateDebut, Date dateFin, String lieu, Double prix, String description, int capacite) {
+		this.titre = titre;
+		this.dateDebut = dateDebut;
+		this.dateFin = dateFin;
+		this.lieu = lieu;
+		this.prix = prix;
+		this.description = description;
+		this.capacite = capacite;
+		this.inscrits = 0;
+		this.statut = StatutEvenement.OUVERT; // Par défaut, l'événement est "ouvert"
+	}
 
-private List<Notification> notifs = new ArrayList<Notification>();
+	public Evenement() {
+		// Constructeur par défaut
+	}
 
-private List<Ticket> tickets = new ArrayList<Ticket>();
+	@Id
+	@GeneratedValue
+	public Long getId() {
+		return id;
+	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-public Evenement(String nom, Date date, String lieu, Double prix, String description) {
-	this.nom = nom;
-	this.date = date;
-	this.lieu = lieu;
-	this.prix = prix;
-	this.description = description;
-}
+	public String getTitre() {
+		return titre;
+	}
 
-public Evenement() {
-	
-}
+	public void setTitre(String titre) {
+		this.titre = titre;
+	}
 
-@Id
-@GeneratedValue
-public Long getId() {
-	return id;
-}
-public void setId(Long id) {
-	this.id = id;
-}
+	public Date getDateDebut() {
+		return dateDebut;
+	}
 
-public String getNom() {
-	return nom;
-}
-public void setNom(String nom) {
-	this.nom = nom;
-}
+	public void setDateDebut(Date dateDebut) {
+		this.dateDebut = dateDebut;
+	}
 
+	public Date getDateFin() {
+		return dateFin;
+	}
 
-public Date getDate() {
-	return date;
-}
-public void setDate(Date date) {
-	this.date = date;
-}
+	public void setDateFin(Date dateFin) {
+		this.dateFin = dateFin;
+	}
 
-public String getLieu() {
-	return lieu;
-}
-public void setLieu(String lieu) {
-	this.lieu = lieu;
-}
+	public String getLieu() {
+		return lieu;
+	}
 
-public Double getPrix() {
-	return prix;
-}
-public void setPrix(Double prix) {
-	this.prix = prix;
-}
+	public void setLieu(String lieu) {
+		this.lieu = lieu;
+	}
 
-public String getDescription() {
-	return description;
-}
-public void setDescription(String description) {
-	this.description =description;
-}
+	public Double getPrix() {
+		return prix;
+	}
 
+	public void setPrix(Double prix) {
+		this.prix = prix;
+	}
 
-@ManyToMany
-public List<Artiste> getArtistes() {
-	return artistes;
-}
+	public String getDescription() {
+		return description;
+	}
 
-public void setArtistes(List<Artiste> artistes) {
-	this.artistes = artistes;
-}
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
+	public int getCapacite() {
+		return capacite;
+	}
 
-@ManyToMany
-public List<GenreMusical> getGenreMusicaux() {
-	return genreMusicaux;
-}
+	public void setCapacite(int capacite) {
+		this.capacite = capacite;
+	}
 
-public void setGenreMusicaux(List<GenreMusical> genreMusicaux) {
-	this.genreMusicaux = genreMusicaux;
-}
+	public int getInscrits() {
+		return inscrits;
+	}
 
+	public void setInscrits(int inscrits) {
+		this.inscrits = inscrits;
+		mettreAJourStatut();  // Mise à jour du statut quand le nombre d'inscrits change
+	}
 
-@OneToMany(mappedBy = "evenement", cascade = CascadeType.PERSIST)
-public List<Notification> getNotifs() {
-	return notifs;
-}
+	public StatutEvenement getStatut() {
+		return statut;
+	}
 
-public void setNotifs(List<Notification> notifs) {
-	this.notifs = notifs;
-}
+	public void setStatut(StatutEvenement statut) {
+		this.statut = statut;
+	}
 
+	// Méthode pour mettre à jour le statut en fonction des inscriptions
+	public void mettreAJourStatut() {
+		if (this.statut == StatutEvenement.ANNULE || this.statut == StatutEvenement.TERMINE) {
+			return; // Ne pas changer si l'événement est déjà annulé ou terminé
+		}
 
-@OneToMany(mappedBy = "evenement", cascade = CascadeType.PERSIST)
-public List<Ticket> getTickets() {
-	return tickets;
-}
+		if (inscrits >= capacite) {
+			this.statut = StatutEvenement.COMPLET;
+		} else if (this.statut != StatutEvenement.EN_COURS && new Date().before(dateDebut)) {
+			this.statut = StatutEvenement.OUVERT;  // L'événement est ouvert avant la date de début
+		} else if (this.statut != StatutEvenement.EN_COURS && new Date().after(dateFin)) {
+			this.statut = StatutEvenement.TERMINE; // L'événement est terminé après la date de fin
+		}
+	}
 
-public void setTickets(List<Ticket> tickets) {
-	this.tickets = tickets;
-}
+	// Méthode pour incrémenter le nombre d'inscrits et mettre à jour le statut
+	public void incrementerInscrits() {
+		if (inscrits < capacite) {
+			inscrits++;
+		}
+		mettreAJourStatut(); // Actualiser le statut à chaque inscription
+	}
 
+	@ManyToMany
+	public List<Artiste> getArtistes() {
+		return artistes;
+	}
 
+	public void setArtistes(List<Artiste> artistes) {
+		this.artistes = artistes;
+	}
+
+	@ManyToMany
+	public List<GenreMusical> getGenreMusicaux() {
+		return genreMusicaux;
+	}
+
+	public void setGenreMusicaux(List<GenreMusical> genreMusicaux) {
+		this.genreMusicaux = genreMusicaux;
+	}
+
+	@OneToMany(mappedBy = "evenement", cascade = CascadeType.PERSIST)
+	public List<Notification> getNotifs() {
+		return notifs;
+	}
+
+	public void setNotifs(List<Notification> notifs) {
+		this.notifs = notifs;
+	}
+
+	@OneToMany(mappedBy = "evenement", cascade = CascadeType.PERSIST)
+	public List<Ticket> getTickets() {
+		return tickets;
+	}
+
+	public void setTickets(List<Ticket> tickets) {
+		this.tickets = tickets;
+	}
 }
