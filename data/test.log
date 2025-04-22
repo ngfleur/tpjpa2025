@@ -1,7 +1,33 @@
-/*C1*/SET SCHEMA SYSTEM_LOBS
-INSERT INTO BLOCKS VALUES(0,2147483647,0)
-COMMIT
-/*C3*/SET SCHEMA PUBLIC
-create sequence Employee_SEQ start with 1 increment by 50
-create table Employee (id bigint not null, name varchar(255), primary key (id))
+/*C5*/SET SCHEMA PUBLIC
+create table Artiste (id bigint not null, nom varchar(255), primary key (id))
+create table Evenement (id bigint not null, date timestamp(6), description varchar(255), lieu varchar(255), nom varchar(255), prix float(53), primary key (id))
+create table Evenement_Artiste (evenements_id bigint not null, artistes_id bigint not null)
+create table Evenement_GenreMusical (evenements_id bigint not null, genreMusicaux_id bigint not null)
+create table GenreMusical (id bigint not null, nom varchar(255), primary key (id))
+create table Notification (id bigint not null, contenu varchar(255), evenement_id bigint, primary key (id))
+create table Place (id bigint not null, numeroEmplacement varchar(255), salle_id bigint, primary key (id))
+create table Salle (id bigint not null, adresseSalle varchar(255), name varchar(255), primary key (id))
+create table Ticket (type_ticket varchar(31) not null, id bigint not null, prixPaye float(53), place_assise boolean, zone varchar(255), acces_vip boolean, cadeau varchar(255), evenement_id bigint, place_id bigint, utilisateur_id bigint, primary key (id))
+create table Utilisateur (id bigint not null, email varchar(255), firstName varchar(255), motDePasse varchar(255), name varchar(255), primary key (id))
+create table Utilisateur_Notification (utilisateurs_id bigint not null, notifs_id bigint not null)
+create sequence Artiste_SEQ start with 1 increment by 50
+create sequence Evenement_SEQ start with 1 increment by 50
+create sequence GenreMusical_SEQ start with 1 increment by 50
+create sequence Notification_SEQ start with 1 increment by 50
+create sequence Place_SEQ start with 1 increment by 50
+create sequence Salle_SEQ start with 1 increment by 50
+create sequence Ticket_SEQ start with 1 increment by 50
+create sequence Utilisateur_SEQ start with 1 increment by 50
+alter table Evenement_Artiste add constraint FKp04wbdje1ntx31fshlsa4vdse foreign key (artistes_id) references Artiste
+alter table Evenement_Artiste add constraint FKbn0cu1a8w24xi4r9s0sk8pn6u foreign key (evenements_id) references Evenement
+alter table Evenement_GenreMusical add constraint FKa1ixxijpqo3su88k9i28c5v28 foreign key (genreMusicaux_id) references GenreMusical
+alter table Evenement_GenreMusical add constraint FK10a0a5plpsskapglwyjrxphgu foreign key (evenements_id) references Evenement
+alter table Notification add constraint FKgfkxsx210c6ugllyg3t752jgg foreign key (evenement_id) references Evenement
+alter table Place add constraint FK2tigqemiudfuwhax71wj23qih foreign key (salle_id) references Salle
+alter table Ticket add constraint FKnxp90mos6ebnx1toph4oqo6a foreign key (evenement_id) references Evenement
+alter table Ticket add constraint FK1y097bnh1sc3ecw4mgw2mrpxd foreign key (place_id) references Place
+alter table Ticket add constraint FKlx6owqa2xjndkbo1ystv5rwkb foreign key (utilisateur_id) references Utilisateur
+alter table Utilisateur_Notification add constraint FKhtvbmjvm3povlga35g302arq4 foreign key (notifs_id) references Notification
+alter table Utilisateur_Notification add constraint FKkb0nnh5l12l4n0oc8ihmij9l8 foreign key (utilisateurs_id) references Utilisateur
+/*C4*/SET SCHEMA PUBLIC
 DISCONNECT
