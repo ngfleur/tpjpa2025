@@ -8,7 +8,7 @@ import jpa.EntityManagerHelper;
 
 public class EvenementDao {
 
-	private EntityManager manager;
+	private final EntityManager manager;
 
 	public EvenementDao() {
 		this.manager = EntityManagerHelper.getEntityManager();

@@ -13,10 +13,11 @@ import jpa.EntityManagerHelper;
 
 public class NotificationDao {
 
-	private EntityManager manager;
+	private final EntityManager manager;
 
-	public NotificationDao(EntityManager manager) {
-		this.manager = manager;
+	public NotificationDao() {
+		this.manager = EntityManagerHelper.getEntityManager();
+
 	}
 
 	public List<Notification> getAllNotification() {

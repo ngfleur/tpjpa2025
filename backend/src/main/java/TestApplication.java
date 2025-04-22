@@ -24,7 +24,7 @@ import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
 import rest.*;
 
-	@ApplicationPath("/")
+
 public class TestApplication extends Application {
 
 	    @Override
