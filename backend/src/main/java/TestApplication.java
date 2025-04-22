@@ -18,16 +18,13 @@
 import java.util.HashSet;
 import java.util.Set;
 
+import domain.GenreMusical;
 import io.swagger.v3.jaxrs2.integration.resources.OpenApiResource;
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
-import rest.EvenementRessource;
-import rest.PlaceRessource;
-import rest.SalleRessource;
-import rest.TicketRessource;
-import rest.UtilisateurRessource;
+import rest.*;
 
-@ApplicationPath("/")
+	@ApplicationPath("/")
 public class TestApplication extends Application {
 
 	    @Override
@@ -41,6 +38,11 @@ public class TestApplication extends Application {
 	        clazzes.add(SalleRessource.class);
 	        clazzes.add(PlaceRessource.class);
 	        clazzes.add(EvenementRessource.class);
+			clazzes.add(ArtisteRessource.class);
+			clazzes.add(GenreMusicalRessource.class);
+			clazzes.add(NotificationRessource.class);
+
+
 
 //	        clazzes.add(AcceptHeaderOpenApiResource.class);
 	         
