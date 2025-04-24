@@ -4,10 +4,46 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a49f6464-a45d-4c69-bf06-2668bd9d9227" name="Changes" comment="Récupération du code de Fleur">
-      <change beforePath="$PROJECT_DIR$/backend/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/.idea/vcs.xml" beforeDir="false" />
+    <list default="true" id="a49f6464-a45d-4c69-bf06-2668bd9d9227" name="Changes" comment="Suppression des fichiers inutiles dans /backend">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/maven/test/testjpa/pom.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/maven/test/testjpa/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/persistence.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/RestServer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/TestApplication.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dao/ArtisteDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dao/EvenementDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dao/GenreMusicalDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dao/NotificationDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dao/PlaceDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dao/SalleDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dao/TicketDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dao/UtilisateurDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/domain/Artiste.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/domain/Evenement.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/domain/GenreMusical.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/domain/Notification.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/domain/Place.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/domain/Salle.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/domain/Ticket.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/domain/TicketPremium.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/domain/TicketStandard.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/domain/Utilisateur.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dto/LoginDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dto/TicketDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/jpa/EntityManagerHelper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/jpa/JpaTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/log4j.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rest/EvenementRessource.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rest/PlaceRessource.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rest/SalleRessource.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rest/TicketRessource.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/rest/UtilisateurRessource.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/testjpa-0.0.1-SNAPSHOT.jar" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +100,7 @@
     "git-widget-placeholder": "sync",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/bahsa/Documents/M1_MIAGE/Semestre 8/SIR/tps/tpjpa2025/backend/src/main/java",
+    "last_opened_file_path": "C:/Users/bahsa/Documents/M1_MIAGE/Semestre 8/SIR/tps/tpjpa2025",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -75,6 +111,9 @@
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\bahsa\Documents\M1_MIAGE\Semestre 8\SIR\tps\tpjpa2025" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\bahsa\Documents\M1_MIAGE\Semestre 8\SIR\tps\tpjpa2025" />
       <recent name="C:\Users\bahsa\Documents\M1_MIAGE\Semestre 8\SIR\tps\tpjpa2025\backend" />
@@ -129,7 +168,7 @@
       <workItem from="1745328999085" duration="4527000" />
       <workItem from="1745333585759" duration="3952000" />
       <workItem from="1745337586335" duration="120000" />
-      <workItem from="1745337802315" duration="2539000" />
+      <workItem from="1745337802315" duration="2620000" />
     </task>
     <task id="LOCAL-00001" summary="Ajout des relations entre les tables notifs , tickets et user">
       <option name="closed" value="true" />
@@ -171,7 +210,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745500283507</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Suppression des fichiers inutiles dans /backend">
+      <option name="closed" value="true" />
+      <created>1745500370604</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1745500370604</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -194,7 +241,8 @@
     <MESSAGE value="Correction de la classe Ticket Dao et  création de la classe EvenementDao et Gestion des evenements" />
     <MESSAGE value="Présentation de l'avancement du projet" />
     <MESSAGE value="Récupération du code de Fleur" />
-    <option name="LAST_COMMIT_MESSAGE" value="Récupération du code de Fleur" />
+    <MESSAGE value="Suppression des fichiers inutiles dans /backend" />
+    <option name="LAST_COMMIT_MESSAGE" value="Suppression des fichiers inutiles dans /backend" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
