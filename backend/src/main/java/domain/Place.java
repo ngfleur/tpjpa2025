@@ -1,0 +1,80 @@
+package domain;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+
+@Entity
+public class Place {
+
+	private Long id;
+	
+	private String numeroEmplacement;
+	
+	private List <Ticket> tickets = new ArrayList<Ticket>();
+	
+	private Salle salle;
+	
+	//Constructeur sans paramètre
+	public Place() {
+		
+	}
+
+	//Constructeur 
+	public Place(String numeroEmplacement, Salle salle) {
+		
+		this.numeroEmplacement = numeroEmplacement;
+		this.salle = salle;
+	}
+	@Id
+	@GeneratedValue
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getNumeroEmplacement() {
+		return numeroEmplacement;
+	}
+
+	public void setNumeroEmplacement(String emplacement) {
+		this.numeroEmplacement = emplacement;
+	}
+	
+	@OneToMany(mappedBy="place")
+	public List <Ticket> getTickets() {
+		return tickets;
+	}
+
+	/**
+	 * @param tickets the tickets to set
+	 */
+	public void setTickets(List <Ticket> tickets) {
+		this.tickets = tickets;
+	}
+
+	/**
+	 * @return the salle
+	 */
+	@ManyToOne
+	@com.fasterxml.jackson.annotation.JsonIgnoreProperties("places")
+	public Salle getSalle() {
+		return salle;
+	}
+
+	/**
+	 * @param salle the salle to set
+	 */
+	public void setSalle(Salle salle) {
+		this.salle = salle;
+	}
+
+}
