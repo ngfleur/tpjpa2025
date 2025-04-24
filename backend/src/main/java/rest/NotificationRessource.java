@@ -19,8 +19,8 @@ import jpa.EntityManagerHelper;
 @Consumes("application/json")
 public class NotificationRessource {
 
-    private final NotificationDao notificationDao = new NotificationDao(EntityManagerHelper.getEntityManager());
-    private final EvenementDao evenementDao = new EvenementDao(EntityManagerHelper.getEntityManager());
+    private final NotificationDao notificationDao = new NotificationDao();
+    private final EvenementDao evenementDao = new EvenementDao();
 
     @GET
     @Path("/{id}")
