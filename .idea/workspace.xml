@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="a49f6464-a45d-4c69-bf06-2668bd9d9227" name="Changes" comment="Présentation de l'avancement du projet" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Oumou30&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/ngfleur/tpjpa2025&quot;,
+    &quot;accountId&quot;: &quot;8b0c7ba4-00c2-4d97-83b2-9bc13212eb3f&quot;
+  }
+}</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="DEPENDENCY_CHECKER_PROBLEMS_TAB" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2sszdqD8KIiSzLJQSXydygMyVhN" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.JpaTest.executor": "Run",
+    "Application.RestServer.executor": "Run",
+    "Maven.testjpa [clean].executor": "Run",
+    "Maven.testjpa [compile].executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "oumou",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/bahsa/Documents/M1_MIAGE/Semestre 8/SIR/tps/tpjpa2025/backend/src/main/java",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.keymap",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\bahsa\Documents\M1_MIAGE\Semestre 8\SIR\tps\tpjpa2025" />
+      <recent name="C:\Users\bahsa\Documents\M1_MIAGE\Semestre 8\SIR\tps\tpjpa2025\backend" />
+      <recent name="C:\Users\bahsa\Documents\M1_MIAGE\Semestre 8\SIR\tps\tpjpa2025\src\main\java" />
+      <recent name="C:\Users\bahsa\Documents\M1_MIAGE\Semestre 8\SIR\tps\tpjpa2025\backend\src\main" />
+      <recent name="C:\Users\bahsa\Documents\M1_MIAGE\Semestre 8\SIR\tps\tpjpa2025\src\main" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn clean" />
+      <command value="mvn compile" />
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="RestServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="21" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="RestServer" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.RestServer" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-fdfe4dae3a2d-intellij.indexing.shared.core-IU-243.21565.193" />
+        <option value="bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-IU-243.21565.193" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a49f6464-a45d-4c69-bf06-2668bd9d9227" name="Changes" comment="" />
+      <created>1739259165907</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1739259165907</updated>
+      <workItem from="1739259167805" duration="387000" />
+      <workItem from="1739260742393" duration="8915000" />
+      <workItem from="1739276518748" duration="19189000" />
+      <workItem from="1742986605234" duration="20928000" />
+      <workItem from="1744274426135" duration="2560000" />
+      <workItem from="1744541601035" duration="624000" />
+      <workItem from="1745328999085" duration="4527000" />
+      <workItem from="1745333585759" duration="3952000" />
+      <workItem from="1745337586335" duration="120000" />
+      <workItem from="1745337802315" duration="1420000" />
+    </task>
+    <task id="LOCAL-00001" summary="Ajout des relations entre les tables notifs , tickets et user">
+      <option name="closed" value="true" />
+      <created>1739260911036</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1739260911036</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Correction des classes, et création de la Dao de Tickets">
+      <option name="closed" value="true" />
+      <created>1739289524222</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1739289524222</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Correction de la classe Ticket Dao et  création de la classe EvenementDao et Gestion des evenements">
+      <option name="closed" value="true" />
+      <created>1739352099003</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1739352099003</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Présentation de l'avancement du projet">
+      <option name="closed" value="true" />
+      <created>1739745984939</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1739745984939</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Ajout des relations entre les tables notifs , tickets et user" />
+    <MESSAGE value="Correction des classes, et création de la Dao de Tickets" />
+    <MESSAGE value="Correction de la classe Ticket Dao et  création de la classe EvenementDao et Gestion des evenements" />
+    <MESSAGE value="Présentation de l'avancement du projet" />
+    <option name="LAST_COMMIT_MESSAGE" value="Présentation de l'avancement du projet" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/backend/src/main/java/dao/TicketDao.java</url>
+          <line>72</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
