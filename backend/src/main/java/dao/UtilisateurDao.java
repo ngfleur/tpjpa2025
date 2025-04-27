@@ -90,7 +90,7 @@ public class UtilisateurDao {
 		} catch (Exception e) {
 			if (tx.isActive()) tx.rollback();
 			throw e;
-		}
+	}
 		return utilisateur;
 	}
 

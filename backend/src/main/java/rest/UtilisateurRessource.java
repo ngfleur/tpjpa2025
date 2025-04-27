@@ -31,7 +31,8 @@ public class UtilisateurRessource {
             }
 
             // Vérification du mot de passe
-            if (!BCrypt.checkpw(connexionDto.getMdp(), utilisateur.getMdp())) {
+            boolean motDePasseValide = BCrypt.checkpw(connexionDto.getMdp(), utilisateur.getMdp());
+            if (!motDePasseValide) {
                 return Response.status(Response.Status.UNAUTHORIZED).entity("Mot de passe incorrect").build();
             }
 
