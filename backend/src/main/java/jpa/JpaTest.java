@@ -1,42 +1,33 @@
 package jpa;
 
 
+import domain.Utilisateur;
+import enums.RoleUtilisateur;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 
 public class JpaTest {
 
 
-	private EntityManager manager;
+    public static void main(String[] args) {
+        EntityManager manager = EntityManagerHelper.getEntityManager();
+        EntityTransaction tx = manager.getTransaction();
+        tx.begin();
 
-	public JpaTest(EntityManager manager) {
-		this.manager = manager;
-	}
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-			EntityManager manager = EntityManagerHelper.getEntityManager();
-
-		JpaTest test = new JpaTest(manager);
-
-		EntityTransaction tx = manager.getTransaction();
-		tx.begin();
-		try {
-
-			// TODO create and persist entity
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		tx.commit();
-
-			
-   	 manager.close();
-		EntityManagerHelper.closeEntityManagerFactory();
-		System.out.println(".. done");
-	}
+        try {
+            Utilisateur user = new Utilisateur("test", "test", "test@test.com", "test", RoleUtilisateur.ORGANISATEUR);
+            manager.persist(user);
+            tx.commit();
+            System.out.println("Données de test ajoutées");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
+        manager.close();
+        EntityManagerHelper.closeEntityManagerFactory();
+        System.out.println(".. done");
+    }
 
 
 }
