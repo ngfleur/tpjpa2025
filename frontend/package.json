@@ -1,6 +1,6 @@
 {
-  "name": "wix-commerce-ticketing-nextjs-template",
-  "version": "0.1.0",
+  "name": "nextjs-ticketing",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -22,7 +22,7 @@
     "@wix/sdk": "^1.5.0",
     "@wix/stores": "^1.0.71",
     "body-scroll-lock": "^4.0.0-beta.0",
-    "cookie": "^0.5.0",
+    "cookie": "0.7.0",
     "date-fns": "^2.30.0",
     "flowbite": "^1.5.4",
     "flowbite-react": "^0.4.4",
