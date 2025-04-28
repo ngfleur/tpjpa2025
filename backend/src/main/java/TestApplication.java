@@ -41,6 +41,8 @@ public class TestApplication extends Application {
 			clazzes.add(ArtisteRessource.class);
 			clazzes.add(GenreMusicalRessource.class);
 			clazzes.add(NotificationRessource.class);
+			clazzes.add(CorsFilter.class);
+
 
 
 

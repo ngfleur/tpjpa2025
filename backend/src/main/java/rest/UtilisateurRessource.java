@@ -7,9 +7,11 @@ import dao.UtilisateurDao;
 import domain.Utilisateur;
 import dto.UtilisateurDtoIn;
 import dto.UtilisateurDtoOut;
+import dto.ConnexionDto;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
+import org.mindrot.jbcrypt.BCrypt;
 
 @Path("utilisateur")
 @Produces("application/json")
@@ -17,6 +19,32 @@ import jakarta.ws.rs.core.Response;
 public class UtilisateurRessource {
 
     private final UtilisateurDao utilisateurDao = new UtilisateurDao();
+
+    @POST
+    @Path("/login")
+    public Response login(ConnexionDto connexionDto) {
+        try {
+            Utilisateur utilisateur = utilisateurDao.getUtilisateurByEmail(connexionDto.getEmail());
+
+            if (utilisateur == null) {
+                return Response.status(Response.Status.UNAUTHORIZED).entity("Email incorrect").build();
+            }
+
+            // Vérification du mot de passe
+            boolean motDePasseValide = BCrypt.checkpw(connexionDto.getMdp(), utilisateur.getMdp());
+            if (!motDePasseValide) {
+                return Response.status(Response.Status.UNAUTHORIZED).entity("Mot de passe incorrect").build();
+            }
+
+            // Authentification réussie
+            UtilisateurDtoOut utilisateurDtoOut = new UtilisateurDtoOut(utilisateur);
+            return Response.ok(utilisateurDtoOut).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Erreur serveur").build();
+        }
+    }
+
 
     @GET
     @Path("/{id}")
@@ -43,7 +71,7 @@ public class UtilisateurRessource {
         user.setFirstName(dtoIn.getFirstName());
         user.setEmail(dtoIn.getEmail());
         user.setRole(dtoIn.getRole());
-        user.setMdp(dtoIn.getMdp());
+        user.setMdp(BCrypt.hashpw(dtoIn.getMdp(), BCrypt.gensalt()));
 
         utilisateurDao.save(user);
         return Response.status(Response.Status.CREATED).entity("Utilisateur ajouté avec succès").build();
