@@ -5,6 +5,7 @@ import domain.Utilisateur;
 import enums.RoleUtilisateur;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class JpaTest {
 
@@ -15,7 +16,8 @@ public class JpaTest {
         tx.begin();
 
         try {
-            Utilisateur user = new Utilisateur("test", "test", "test@test.com", "test", RoleUtilisateur.ORGANISATEUR);
+            String pw = BCrypt.hashpw("test", BCrypt.gensalt());
+            Utilisateur user = new Utilisateur("test", "test", "test@test.com", pw, RoleUtilisateur.ORGANISATEUR);
             manager.persist(user);
             tx.commit();
             System.out.println("Données de test ajoutées");
