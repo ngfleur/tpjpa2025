@@ -60,5 +60,13 @@ public class EvenementDao {
 		}
 	}
 
+	public boolean artisteExists(Long id) {
+		return manager.find(Artiste.class, id) != null;
+	}
+
+	public boolean genreMusicalExists(Long id) {
+		return manager.find(GenreMusical.class, id) != null;
+	}
+
 	// Les méthodes pour artistes, genres, notifs et tickets restent inchangées
 }

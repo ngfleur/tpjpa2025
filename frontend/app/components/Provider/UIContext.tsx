@@ -37,7 +37,9 @@ interface UIContextType extends UIState {
   toggleSidebar: () => void;
   closeSidebar: () => void;
   setSidebarView: (view: SidebarView) => void;
-  openModal: (view: UIState['modalView']) => void;
+  openModal: (view: UIState['modalView'],
+              options?: { onSuccess?: () => void; onClose?: ()=> void;}
+  ) => void;
   closeModal: () => void;
   addToast: (
     message: string,

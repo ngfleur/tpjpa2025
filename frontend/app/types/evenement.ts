@@ -29,4 +29,6 @@ export interface EvenementInput {
   prix: number;
   description: string;
   capacite: number;
+  artistes?: { id: number }[];
+  genreMusicaux?: { id: number }[];
 }
