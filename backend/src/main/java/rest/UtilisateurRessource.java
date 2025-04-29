@@ -23,28 +23,62 @@ public class UtilisateurRessource {
     @POST
     @Path("/login")
     public Response login(ConnexionDto connexionDto) {
+
+        System.out.println("Email reçu: " + connexionDto.getEmail());
+        System.out.println("Mot de passe reçu: " + connexionDto.getMdp());
+
         try {
             Utilisateur utilisateur = utilisateurDao.getUtilisateurByEmail(connexionDto.getEmail());
 
             if (utilisateur == null) {
+                System.out.println("Utilisateur non trouvé");
                 return Response.status(Response.Status.UNAUTHORIZED).entity("Email incorrect").build();
             }
 
             // Vérification du mot de passe
             boolean motDePasseValide = BCrypt.checkpw(connexionDto.getMdp(), utilisateur.getMdp());
+            System.out.println("Mot de passe valide: " + motDePasseValide);
             if (!motDePasseValide) {
                 return Response.status(Response.Status.UNAUTHORIZED).entity("Mot de passe incorrect").build();
             }
 
+            // --- Génération d'un faux token (plus tard tu peux mettre JWT) ---
+            String token = "dummy-token-for-user-" + utilisateur.getId();
+
+            // --- Retour d'un JSON avec le token ---
+            String responseJson = "{\"token\": \"" + token + "\"}";
+
+            return Response.ok(responseJson).build();
+
             // Authentification réussie
-            UtilisateurDtoOut utilisateurDtoOut = new UtilisateurDtoOut(utilisateur);
-            return Response.ok(utilisateurDtoOut).build();
+            /*UtilisateurDtoOut utilisateurDtoOut = new UtilisateurDtoOut(utilisateur);
+            return Response.ok(utilisateurDtoOut).build();*/
         } catch (Exception e) {
             e.printStackTrace();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Erreur serveur").build();
         }
     }
 
+    @POST
+    @Path("/verify-token")
+    public Response verifyToken(@HeaderParam("Authorization") String authHeader) {
+        try {
+            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+                return Response.status(Response.Status.UNAUTHORIZED).entity("Jeton invalide").build();
+            }
+
+            String token = authHeader.substring(7); // Supprimer le préfixe "Bearer "
+            // Validation fictive du jeton (remplacez par une validation JWT plus tard)
+            if (token.startsWith("dummy-token-for-user-")) {
+                return Response.ok().build();
+            }
+
+            return Response.status(Response.Status.UNAUTHORIZED).entity("Jeton invalide").build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Erreur serveur").build();
+        }
+    }
 
     @GET
     @Path("/{id}")

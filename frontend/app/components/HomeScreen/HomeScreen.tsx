@@ -176,7 +176,7 @@ export const HomeScreen = ({ evenements }: { evenements: Evenement[] }) => {
                     data-testid="ticket-item.select.cta"
                     className="btn-main my-2 sm:my-10 rounded-2xl w-full text-center sm:w-auto h-fit min-w-fit"
                   >
-                    Acheter des billets
+                    Plus d'infos
                   </Link>
                 </div>
               ))}
