@@ -1,5 +1,6 @@
 package domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.DiscriminatorColumn;
@@ -87,6 +88,7 @@ public class Ticket {
 	 */
 	@ManyToOne
 	@JsonIgnoreProperties("tickets")
+	@JsonBackReference
 	public Evenement getEvenement() {
 		return evenement;
 	}

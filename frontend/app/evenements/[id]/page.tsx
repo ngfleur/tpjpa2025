@@ -36,6 +36,49 @@ export default function EvenementPage({ params }: { params: { id: string } }) {
         { id: 2, nom: 'Metal' },
       ],
     },
+    {
+      id: 2,
+      titre: 'Concert Rock à Paris',
+      dateDebut: new Date('2024-04-15T20:00:00'),
+      dateFin: new Date('2024-04-15T23:00:00'),
+      capacite: 500,
+      inscrits: 250,
+      statut: StatutEvenement.OUVERT,
+      lieu: 'Salle Pleyel',
+      prix: 45,
+      description:
+          'Une soirée pop inoubliable avec des artistes exceptionnels',
+      artistes: [
+        { id: 1, nom: 'Rock Band' },
+        { id: 2, nom: 'Guitar Heroes' },
+      ],
+      genreMusicaux: [
+        { id: 1, nom: 'Rock' },
+        { id: 2, nom: 'Metal' },
+      ],
+    },
+    {
+      id: 3,
+      titre: 'Concert Pop à Rennes',
+      dateDebut: new Date('2024-04-15T20:00:00'),
+      dateFin: new Date('2024-04-15T23:00:00'),
+      capacite: 500,
+      inscrits: 250,
+      statut: StatutEvenement.OUVERT,
+      lieu: 'Salle Pleyel',
+      prix: 45,
+      description:
+          'Une soirée pop inoubliable avec des artistes exceptionnels',
+      artistes: [
+        { id: 1, nom: 'Rock Band' },
+        { id: 2, nom: 'Guitar Heroes' },
+      ],
+      genreMusicaux: [
+        { id: 1, nom: 'Rock' },
+        { id: 2, nom: 'Metal' },
+      ],
+    },
+
 
   ];
 

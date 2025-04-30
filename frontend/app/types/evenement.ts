@@ -9,8 +9,8 @@ export enum StatutEvenement {
 export interface Evenement {
   id: number;
   titre: string;
-  dateDebut: Date;
-  dateFin: Date;
+  dateDebut: Date | string;
+  dateFin: Date | string;
   capacite: number;
   inscrits: number;
   statut: StatutEvenement;

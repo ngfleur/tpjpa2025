@@ -18,10 +18,12 @@ interface LoadingState {
   [key: string]: boolean;
 }
 
-export const EvenementList: React.FC<EvenementListProps> = ({ 
+/*export const EvenementList: React.FC<EvenementListProps> = ({
   evenements,
   onReservation 
-}) => {
+}) => {*/
+export function EvenementList({ evenements = [], onReservation }: EvenementListProps) {
+    const [selectedQuantity, setSelectedQuantity] = useState<{ [key: number]: number }>({});
   const [selectedTickets, setSelectedTickets] = useState<SelectedTickets>({});
   const [isLoading, setIsLoading] = useState<LoadingState>({});
 
@@ -130,13 +132,17 @@ export const EvenementList: React.FC<EvenementListProps> = ({
 
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-      {evenements.map(renderEvenement)}
-    </div>
-  );
-};
+        {evenements && evenements.length > 0 ? (
+            evenements.map(renderEvenement)
+        ) : (
+            <p className="text-white">Aucun événement disponible.</p>
+            )}
+            </div>
+            );
+        };
 
 const getStatutColor = (statut: StatutEvenement): string => {
-  switch (statut) {
+    switch (statut) {
     case StatutEvenement.OUVERT:
       return 'bg-green-100 text-green-800';
     case StatutEvenement.COMPLET:
