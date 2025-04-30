@@ -135,7 +135,7 @@ export const HomeScreen = () => {
                                             <div className="grow flex flex-col hover:text-purple-500">
                                                 <button
                                                     onClick={() => toggleEvent(evenement.id)}
-                                                    className="text-left w-full h-full group/button text-2xl text-left"
+                                                    className="text-left w-full h-full group/button text-2xl"
                                                 >
                                                     {evenement.titre}
                                                     <svg
