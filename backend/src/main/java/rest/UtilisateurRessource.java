@@ -3,6 +3,7 @@ package rest;
 import dao.UtilisateurDao;
 import domain.Utilisateur;
 import dto.ConnexionDto;
+import dto.RegisterDto;
 import dto.UtilisateurDtoIn;
 import dto.UtilisateurDtoOut;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -63,46 +64,40 @@ public class UtilisateurRessource {
 
     @POST
     @Path("/register")
-    public Response register(ConnexionDto connexionDto) {
-
-        System.out.println("nom reçu: " + connexionDto.getEmail());
-        System.out.println("prenom reçu: " + connexionDto.getMdp());
-        System.out.println("Email reçu: " + connexionDto.getEmail());
-        System.out.println("Mot de passe reçu: " + connexionDto.getMdp());
-        System.out.println("role: " + connexionDto.getEmail());
+    public Response register(RegisterDto registerDto) {
+        System.out.println("nom reçu: " + registerDto.getName());
+        System.out.println("prenom reçu: " + registerDto.getFirstName());
+        System.out.println("Email reçu: " + registerDto.getEmail());
+        System.out.println("Mot de passe reçu: " + registerDto.getMdp());
+        System.out.println("role: " + registerDto.getRole()); // TODO: Fix it later
 
         try {
-            Utilisateur utilisateur = utilisateurDao.getUtilisateurByEmail(connexionDto.getEmail());
+            Utilisateur existingUser = utilisateurDao.getUtilisateurByEmail(registerDto.getEmail());
 
-            if (utilisateur == null) {
-                System.out.println("Utilisateur non trouvé");
-                return Response.status(Response.Status.UNAUTHORIZED).entity("Email incorrect").build();
+            if (existingUser != null) {
+                return Response.status(Response.Status.CONFLICT).entity("Email déjà utilisé").build();
             }
 
-            // Vérification du mot de passe
-            boolean motDePasseValide = BCrypt.checkpw(connexionDto.getMdp(), utilisateur.getMdp());
-            System.out.println("Mot de passe valide: " + motDePasseValide);
-            if (!motDePasseValide) {
-                return Response.status(Response.Status.UNAUTHORIZED).entity("Mot de passe incorrect").build();
-            }
+            //Utilisateur newUser =  registerDto.convertToUtilisateur();
+            Utilisateur newUser = new Utilisateur();
+            newUser.setName(registerDto.getName());
+            newUser.setFirstName(registerDto.getFirstName());
+            newUser.setEmail(registerDto.getEmail());
+            newUser.setMdp(BCrypt.hashpw(registerDto.getMdp(), BCrypt.gensalt()));
+            newUser.setRole(registerDto.getRole());
 
-            // --- Génération d'un faux token (plus tard tu peux mettre JWT) ---
-            String token = "dummy-token-for-user-" + utilisateur.getId();
+            utilisateurDao.save(newUser);
 
-            // --- Retour d'un JSON avec le token ---
+            String token = "dummy-token-for-user-" + newUser.getId();
             String responseJson = "{\"token\": \"" + token + "\"}";
 
-            return Response.ok(responseJson).build();
+            return Response.status(Response.Status.CREATED).entity(responseJson).build();
 
-            // Authentification réussie
-            /*UtilisateurDtoOut utilisateurDtoOut = new UtilisateurDtoOut(utilisateur);
-            return Response.ok(utilisateurDtoOut).build();*/
         } catch (Exception e) {
             e.printStackTrace();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Erreur serveur").build();
         }
     }
-
 
     @POST
     @Path("/verify-token")
