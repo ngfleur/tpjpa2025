@@ -1,10 +1,13 @@
 package rest;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import dao.*;
-import domain.*;
+import dao.EvenementDao;
+import dao.PlaceDao;
+import dao.TicketDao;
+import dao.UtilisateurDao;
+import domain.Evenement;
+import domain.Place;
+import domain.Ticket;
+import domain.Utilisateur;
 import dto.TicketDtoIn;
 import dto.TicketDtoOut;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -12,6 +15,9 @@ import jakarta.persistence.EntityTransaction;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Application;
 import jakarta.ws.rs.core.Response;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Path("ticket")
 @Produces("application/json")
@@ -110,9 +116,6 @@ public class TicketRessource extends Application {
             // Vérifier la disponibilité et le statut
             if (evenement.getInscrits() >= evenement.getCapacite()) {
                 return Response.status(Response.Status.BAD_REQUEST).entity("Événement complet").build();
-            }
-            if (evenement.getStatut() != enums.StatutEvenement.OUVERT) {
-                return Response.status(Response.Status.BAD_REQUEST).entity("L'événement n'est pas ouvert à la vente").build();
             }
 
             // Vérifier la place

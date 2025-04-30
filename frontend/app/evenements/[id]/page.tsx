@@ -3,10 +3,8 @@
 import {useEffect, useState} from 'react';
 import Image from 'next/image';
 import Cookies from 'js-cookie';
-import {Evenement, StatutEvenement} from '@app/types/evenement';
+import {Evenement} from '@app/types/evenement';
 import {useUI} from '@app/components/Provider/UIContext';
-import Header from '@components/Layout/Header';
-import Footer from '@components/Layout/Footer';
 import {toast} from "sonner";
 
 export default function EvenementPage({params}: { params: { id: number } }) {
@@ -121,11 +119,11 @@ export default function EvenementPage({params}: { params: { id: number } }) {
                     setEvenement(data);
                     break;
                 default:
-                    toast.error("Echec de chargement de l'évènements")
+                    toast.error("Echec de chargement de l'évènement")
                     break;
             }
         } catch (err) {
-            toast.error("Echec de chargement de l'évènements")
+            toast.error("Echec de chargement de l'évènement")
         } finally {
             setIsLoading(false);
         }
@@ -137,78 +135,73 @@ export default function EvenementPage({params}: { params: { id: number } }) {
 
     if (!evenement) {
         return (
-            <div className="min-h-screen bg-zinc-900 text-white p-8">
-                Événement non trouvé
+            <div className="min-h-screen bg-zinc-900 text-white p-8 flex justify-center items-center">
+                <h1 className={'text-2xl font-bold'}>Événement non trouvé</h1>
             </div>
         );
     }
 
     return (
-        <html>
-        <body>
-        <div className="min-h-screen flex flex-col pt-16">
-            <Header/>
+        <div className="min-h-screen bg-zinc-900 text-white">
+            <div className="max-w-6xl mx-auto p-4 sm:p-6 lg:p-8">
+                <div className="bg-zinc-800 rounded-xl overflow-hidden">
+                    <div className="relative h-[300px] sm:h-[400px]">
+                        <Image
+                            src={`/images/events/${evenement.id}.jpg`}
+                            alt={evenement.titre}
+                            fill
+                            className="object-cover"
+                            priority
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-zinc-800 to-transparent"/>
+                    </div>
 
-            <div className="min-h-screen bg-zinc-900 text-white">
-                <div className="max-w-6xl mx-auto p-4 sm:p-6 lg:p-8">
-                    <div className="bg-zinc-800 rounded-xl overflow-hidden">
-                        <div className="relative h-[300px] sm:h-[400px]">
-                            <Image
-                                src={`/images/events/${evenement.id}.jpg`}
-                                alt={evenement.titre}
-                                fill
-                                className="object-cover"
-                                priority
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-zinc-800 to-transparent"/>
-                        </div>
+                    {/* Contenu principal */}
+                    <div className="p-6">
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                            {/* Informations principales */}
+                            <div className="lg:col-span-2">
+                                <h1 className="text-4xl font-bold mb-4">
+                                    {evenement.titre}
+                                </h1>
+                                <div className="space-y-4">
+                                    <p className="text-xl">{evenement.description}</p>
 
-                        {/* Contenu principal */}
-                        <div className="p-6">
-                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                                {/* Informations principales */}
-                                <div className="lg:col-span-2">
-                                    <h1 className="text-4xl font-bold mb-4">
-                                        {evenement.titre}
-                                    </h1>
-                                    <div className="space-y-4">
-                                        <p className="text-xl">{evenement.description}</p>
-
-                                        <div className="flex flex-wrap gap-4">
-                                            {evenement.artistes.map((artiste) => (
-                                                <span
-                                                    key={artiste.id}
-                                                    className="bg-zinc-700 px-3 py-1 rounded-full"
-                                                >
+                                    <div className="flex flex-wrap gap-4">
+                                        {evenement.artistes.map((artiste) => (
+                                            <span
+                                                key={artiste.id}
+                                                className="bg-zinc-700 px-3 py-1 rounded-full"
+                                            >
                               {artiste.nom}
                             </span>
-                                            ))}
-                                        </div>
+                                        ))}
+                                    </div>
 
-                                        <div className="flex flex-wrap gap-2">
-                                            {evenement.genreMusicaux.map((genre) => (
-                                                <span
-                                                    key={genre.id}
-                                                    className="text-sm text-zinc-400"
-                                                >
+                                    <div className="flex flex-wrap gap-2">
+                                        {evenement.genreMusicaux.map((genre) => (
+                                            <span
+                                                key={genre.id}
+                                                className="text-sm text-zinc-400"
+                                            >
                               #{genre.nom}
                             </span>
-                                            ))}
-                                        </div>
+                                        ))}
                                     </div>
                                 </div>
+                            </div>
 
-                                {/* Section achat */}
-                                <div className="bg-zinc-700 p-6 rounded-xl h-fit">
-                                    <div className="space-y-4">
-                                        <div className="text-2xl font-bold">
-                                            {evenement.prix}€
-                                        </div>
+                            {/* Section achat */}
+                            <div className="bg-zinc-700 p-6 rounded-xl h-fit">
+                                <div className="space-y-4">
+                                    <div className="text-2xl font-bold">
+                                        {evenement.prix}€
+                                    </div>
 
-                                        <div className="space-y-2">
-                                            <div className="flex justify-between">
-                                                <span>Date</span>
-                                                <span>
+                                    <div className="space-y-2">
+                                        <div className="flex justify-between">
+                                            <span>Date</span>
+                                            <span>
                               {new Date(evenement.dateDebut).toLocaleDateString(
                                   'fr-FR',
                                   {
@@ -219,10 +212,10 @@ export default function EvenementPage({params}: { params: { id: number } }) {
                                   }
                               )}
                             </span>
-                                            </div>
-                                            <div className="flex justify-between">
-                                                <span>Heure</span>
-                                                <span>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <span>Heure</span>
+                                            <span>
                               {new Date(evenement.dateDebut).toLocaleTimeString(
                                   'fr-FR',
                                   {
@@ -231,51 +224,35 @@ export default function EvenementPage({params}: { params: { id: number } }) {
                                   }
                               )}
                             </span>
-                                            </div>
-                                            <div className="flex justify-between">
-                                                <span>Lieu</span>
-                                                <span>{evenement.lieu}</span>
-                                            </div>
-                                            <div className="flex justify-between">
-                                                <span>Places restantes</span>
-                                                <span>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <span>Lieu</span>
+                                            <span>{evenement.lieu}</span>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <span>Places restantes</span>
+                                            <span>
                               {evenement.capacite - evenement.inscrits}
                             </span>
-                                            </div>
                                         </div>
-
-                                        <button
-                                            onClick={handleAchatTicket}
-                                            disabled={
-                                                isLoading ||
-                                                evenement.statut !== StatutEvenement.OUVERT
-                                            }
-                                            className={`w-full py-3 px-4 rounded-lg text-center text-white
-                      ${
-                                                evenement.statut === StatutEvenement.OUVERT
-                                                    ? 'bg-purple-600 hover:bg-purple-700'
-                                                    : 'bg-gray-600 cursor-not-allowed'
-                                            } disabled:opacity-50`}
-                                            aria-label={isLoading ? 'Achat en cours' : `Acheter un ticket pour ${evenement.titre}`}
-                                        >
-                                            {isLoading
-                                                ? 'En cours...'
-                                                : evenement.statut === StatutEvenement.COMPLET
-                                                    ? 'Complet'
-                                                    : evenement.statut === StatutEvenement.ANNULE
-                                                        ? 'Annulé'
-                                                        : 'Acheter un ticket'}
-                                        </button>
                                     </div>
+
+                                    <button
+                                        onClick={handleAchatTicket}
+                                        disabled={isLoading}
+                                        className={`w-full py-3 px-4 rounded-lg text-center text-white bg-purple-600 hover:bg-purple-700 disabled:opacity-50`}
+                                        aria-label={isLoading ? 'Achat en cours' : `Acheter un ticket pour ${evenement.titre}`}
+                                    >
+                                        {isLoading
+                                            ? 'En cours...'
+                                            : 'Acheter un ticket'}
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <Footer/>
         </div>
-        </body>
-        </html>
     );
 }
