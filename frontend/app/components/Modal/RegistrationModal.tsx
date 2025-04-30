@@ -2,17 +2,25 @@
 
 import React, { useState } from 'react';
 import { useUI } from '@app/components/Provider/UIContext';
+import {RoleUtilisateur} from "@app/utils/enums";
 
 type RegistrationFormData = {
+  name: string;
+  firstName: string;
   email: string;
   password: string;
+  role: string;
+
 };
 
 export const RegistrationModal = () => {
   const { openModal, closeModal, isModalOpen, modalView } = useUI();
   const [formData, setFormData] = useState<RegistrationFormData>({
+    name:'',
+    firstName:'',
     email: '',
     password: '',
+    role: RoleUtilisateur.PARTICIPANT,
   });
   const [error, setError] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -30,6 +38,8 @@ export const RegistrationModal = () => {
         },
         //body: JSON.stringify(formData),
         body: JSON.stringify({
+          firstName: formData.firstName,
+          name:formData.name,
           email: formData.email,
           mdp: formData.password,
         }),
@@ -53,7 +63,7 @@ export const RegistrationModal = () => {
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement| HTMLSelectElement>) => {
     setFormData(prev => ({
       ...prev,
       [e.target.name]: e.target.value
@@ -84,6 +94,36 @@ export const RegistrationModal = () => {
           )}
 
           <div>
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+              Nom
+            </label>
+            <input
+                id="name"
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+            />
+          </div>
+
+          <div>
+            <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">
+              Prenom
+            </label>
+            <input
+                id="firstName"
+                type="text"
+                name="firstName"
+                value={formData.firstName}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+            />
+          </div>
+
+          <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
               Email
             </label>
@@ -97,6 +137,27 @@ export const RegistrationModal = () => {
               required
             />
           </div>
+
+          <div>
+            <label htmlFor="role" className="block text-sm font-medium text-gray-700 mb-1">
+              Rôle
+            </label>
+            <select
+                id="role"
+                name="role"
+                value={formData.role}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+            >
+              {Object.values(RoleUtilisateur).map((role) => (
+                  <option key={role} value={role}>
+                    {role}
+                  </option>
+              ))}
+            </select>
+          </div>
+
 
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">

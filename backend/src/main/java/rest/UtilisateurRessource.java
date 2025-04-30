@@ -1,17 +1,17 @@
 package rest;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import dao.UtilisateurDao;
 import domain.Utilisateur;
+import dto.ConnexionDto;
 import dto.UtilisateurDtoIn;
 import dto.UtilisateurDtoOut;
-import dto.ConnexionDto;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 import org.mindrot.jbcrypt.BCrypt;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Path("utilisateur")
 @Produces("application/json")
@@ -58,6 +58,50 @@ public class UtilisateurRessource {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Erreur serveur").build();
         }
     }
+
+
+    @POST
+    @Path("/register")
+    public Response register(ConnexionDto connexionDto) {
+
+        System.out.println("nom reçu: " + connexionDto.getEmail());
+        System.out.println("prenom reçu: " + connexionDto.getMdp());
+        System.out.println("Email reçu: " + connexionDto.getEmail());
+        System.out.println("Mot de passe reçu: " + connexionDto.getMdp());
+        System.out.println("role: " + connexionDto.getEmail());
+
+        try {
+            Utilisateur utilisateur = utilisateurDao.getUtilisateurByEmail(connexionDto.getEmail());
+
+            if (utilisateur == null) {
+                System.out.println("Utilisateur non trouvé");
+                return Response.status(Response.Status.UNAUTHORIZED).entity("Email incorrect").build();
+            }
+
+            // Vérification du mot de passe
+            boolean motDePasseValide = BCrypt.checkpw(connexionDto.getMdp(), utilisateur.getMdp());
+            System.out.println("Mot de passe valide: " + motDePasseValide);
+            if (!motDePasseValide) {
+                return Response.status(Response.Status.UNAUTHORIZED).entity("Mot de passe incorrect").build();
+            }
+
+            // --- Génération d'un faux token (plus tard tu peux mettre JWT) ---
+            String token = "dummy-token-for-user-" + utilisateur.getId();
+
+            // --- Retour d'un JSON avec le token ---
+            String responseJson = "{\"token\": \"" + token + "\"}";
+
+            return Response.ok(responseJson).build();
+
+            // Authentification réussie
+            /*UtilisateurDtoOut utilisateurDtoOut = new UtilisateurDtoOut(utilisateur);
+            return Response.ok(utilisateurDtoOut).build();*/
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Erreur serveur").build();
+        }
+    }
+
 
     @POST
     @Path("/verify-token")

@@ -1,17 +1,17 @@
 package enums;
 
 public enum RoleUtilisateur {
-        ADMIN("admin"),
-        ORGANISATEUR("organisateur"),
-        PARTICIPANT("participant");
+    ADMIN("Admin"),
+    ORGANISATEUR("Organisateur"),
+    PARTICIPANT("Participant");
 
-        private String role;
+    private String role;
 
-        RoleUtilisateur(String role) {
-            this.role = role;
-        }
+    RoleUtilisateur(String role) {
+        this.role = role;
+    }
 
-        public String getRole() {
-            return role;
-        }
+    public String getRole() {
+        return role;
+    }
 }
