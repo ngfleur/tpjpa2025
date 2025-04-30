@@ -11,7 +11,7 @@ interface UIState {
   isSidebarOpen: boolean;
   displaySidebar: boolean;
   sidebarView: SidebarView;
-  modalView: 'NONE' | 'BACK_IN_STOCK' | 'LOGIN' | 'REGISTER';
+  modalView: 'NONE' | 'BACK_IN_STOCK' | 'LOGIN' | 'REGISTRATION';
   isModalOpen: boolean;
   toastMessages: Array<{
     id: string;
