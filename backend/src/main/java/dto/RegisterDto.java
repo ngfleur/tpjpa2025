@@ -9,9 +9,6 @@ public class RegisterDto {
     private String mdp;
     private RoleUtilisateur role;
 
-    public RegisterDto() {
-    }
-
     public String getName() {
         return name;
     }
