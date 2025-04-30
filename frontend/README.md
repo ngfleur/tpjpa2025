@@ -1,76 +1,124 @@
-# A Wix Events and Wix eCommerce Next.js Music Tour Template
+# Projet de Gestion de Concerts - EV$NTIX (TP SIR - M1 MIAGE)
 
-> Join the [Wix Headless community on Discord](https://discord.gg/47gUT9KabP) to get official support, interact with fellow Wix Headless developers and get updates on new releases.
+## 1. Présentation du projet
 
-![Template showcase](docs/media/template-showcase.gif)
+**EV$NTIX** est une application web complète de billetterie musicale permettant aux utilisateurs de consulter les événements à venir, de réserver des places et aux organisateurs de gérer leurs evenements.
 
-This template is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app). It uses [Wix Headless](https://dev.wix.com/api/sdk/about-wix-headless/overview) to leverage the Wix Events and Wix Stores business solutions for managing event ticketing and a store.
+Ce projet universitaire met en œuvre une architecture moderne basée sur Java JPA pour le back-end et React / Next.js pour le front-end. Il met l'accent sur la séparation des responsabilités, la sécurité, la convivialité et l'organisation claire du code.
 
-## Local Development
+## 2. Technologies utilisées
 
-Prerequisites:
+- **Backend** : Java 17, JPA (Jakarta Persistence API), RESTEasy, MySQL
+- **Frontend** : React.js, Next.js, TailwindCSS
+- **Outils** : Git, VS Code, IntelliJ IDEA, Postman, npm, cookies / localStorage
 
-1. [Create a Wix Headless project](https://dev.wix.com/docs/go-headless/getting-started/setup/general-setup/create-a-project)
-2. [Add the Stores and Events apps to your project](https://dev.wix.com/docs/go-headless/getting-started/setup/general-setup/add-apps-to-a-project)
-3. Authorize the template with [quick start deployment](https://manage.wix.com/headless-funnel-nextjs/select-platform?templateName=commerce-ticketing) or by [creating an OAuth app](https://dev.wix.com/docs/go-headless/getting-started/setup/authorization/create-an-o-auth-app-for-visitors-and-members)
-4. [Set up your project's eCommerce settings](https://www.wix.com/my-account/site-selector/?buttonText=Select%20Site&title=Select%20a%20Site&autoSelectOnSingleSite=true&actionUrl=https:%2F%2Fwww.wix.com%2Fdashboard%2F%7B%7BmetaSiteId%7D%7D%2Fstore/settings)
+## 3. Architecture du projet
 
-Set up environment variables to consume Wix Headless APIs:
+Le projet est organisé en deux grandes parties :
 
-1. In the template's root folder, create a file for the local environment variables:
-   ```sh
-   cp .env.template .env.local.
-   ```
-2. In the new **.env.local** file, paste the OAuth app client ID after `NEXT_PUBLIC_WIX_CLIENT_ID=`.
+- **Backend** : contient les entités JPA, les DAO, les DTOs, les ressources REST (APIs) et le serveur RESTEasy.
+- **Frontend** : application React / Next.js avec composants, pages, contextes, services, styles et routage dynamique.
 
-Run the development server:
+## 4. Backend - Description
 
-1. Run either:
+L'architecture backend suit un modèle classique en couches :
 
-   ```sh
-   yarn dev
-   ```
+- **Entités JPA** : `Utilisateur`, `Evenement`, `Ticket`, `Salle`, `Place`, `GenreMusical`, `Artiste`, `Notification`, `TicketStandard`, `TicketPremium`
+- **DAO** : chaque entité possède un DAO pour effectuer les opérations CRUD, et certaines requêtes personnalisées.
+- **DTOs** : objets de transfert permettant de découpler les entités JPA de la couche présentation.
+- **Ressources REST** : classes exposant les routes HTTP pour créer, lire, modifier ou supprimer les entités.
+- **Sécurité simplifiée** : gestion d'authentification via token simulé (ex: `dummy-token-for-user-1`).
 
-   or
+### Fonctionnalités backend disponibles
 
-   ```sh
-   npm i
-   npm run dev
-   ```
+- Authentification et inscription d'utilisateurs (avec rôles : PARTICIPANT, ORGANISATEUR)
+- Création, consultation et mise à jour d'événements
+- Association d'artistes et de genres musicaux à un événement
+- Achat de tickets standard ou premium avec vérification de disponibilité
+- Notifications liées à un événement
+- Gestion des places dans des salles
 
-2. Open http://localhost:3000 in your browser to see the template home page.
+## 5. Frontend - Description
 
-Edit the template:
+### Inscription & Connexion
 
-- Start editing the homepage by modifying **app/page.tsx**. The page auto-updates as you edit the file.
-- Edit any other page using the pattern **app/page.tsx**. For more information, see [Defining Routes](https://beta.nextjs.org/docs/routing/defining-routes) in the Next.js documentation.
+L'application permet aux utilisateurs de s'inscrire et se connecter via des modales intuitives. Lors de l'inscription, l'utilisateur choisit un rôle : PARTICIPANT, ORGANISATEUR.
 
-# Deployment
+- **Inscription** : via `RegistrationModal`, un formulaire permet la création du compte avec rôle.
+- **Connexion** : via `LoginModal`, l'utilisateur obtient un token stocké côté client.
+- L'accès aux fonctionnalités est conditionné par le rôle, avec une navigation protégée.
 
-You can deploy this repository using any platform which supports Next.js Version 13 and [App Router](https://nextjs.org/docs/app).
+L'interface web repose sur **Next.js** et **TailwindCSS**, avec des composants modulaires pour une UX fluide et moderne.
 
-The repository requires a single environment variable: `NEXT_PUBLIC_WIX_CLIENT_ID`, which should contain a client ID authorizing access to a Wix project's data.
+### Pages principales
 
-# Learn More
+- **Accueil** : `HomeScreen` affichant dynamiquement la liste des événements avec visuel et filtre
+- **/evenements** : liste complète avec formulaire de création pour les organisateurs, affichage adapté au rôle utilisateur
+- **/evenements/[id]** : page détaillée de chaque événement avec achat de ticket
 
-To learn how to customize the template and add more functionality using Wix APIs, see the [Wix JavaScript SDK reference](https://dev.wix.com/api/sdk).
+### Sécurité et session
 
-This template is written in [Next.js](https://nextjs.org/docs) 13 using the [Next.js App Router](https://nextjs.org/docs/app).
+- Stockage du token dans `cookies` ou `localStorage`
+- Redirection automatique vers la modale de connexion si action interdite
+- Vérification du rôle pour afficher les actions (organisateur, participant...)
 
-To learn more about Next.js, see:
+## 6. Installation et lancement
 
-- [Next.js documentation](https://nextjs.org/docs): Learn about Next.js features and APIs.
-- [Learn Next.js](https://nextjs.org/learn): An interactive Next.js tutorial.
+### Backend (Java)
 
-Additionally, this template uses the following libraries and features:
+1. Cloner le dépôt
+2. Configurer `persistence.xml` avec votre base MySQL
+3. Lancer la classe `RestEasyServer.java`
+4. API disponible sur `http://localhost:8080`
 
-- [React Server Components](https://nextjs.org/docs/advanced-features/react-18/server-components)
-- [TypeScript](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-9.html)
-- [TanStack Query v4](https://tanstack.com/query/latest)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Flowbite](https://flowbite.com/)
-- [Wix client SDK](https://dev.wix.com/api/sdk/introduction)
+### Frontend (React / Next.js)
 
-# Next.js and Wix Integration Guide
+```bash
+cd front-end
+npm install
+npm run dev
 
-See the comprehensive [integration guide](./docs/integration-guide.md) for step-by-step instructions on how to configure Wix as your headless Booking solution using Next.js on Vercel.
+```
+
+accédez à l'application via : http://localhost:3000
+
+### Connexion d'utilisateurs via postman
+
+Sur postman avec la méthode POST via http://localhost:8080/utilisateur/login, avec une autorisation Bearer Token et des entêtes Postman token et Content-type via les champs
+
+**"email" et "mdp"**
+
+
+## 7. Scénarios de test
+
+### En tant que participant
+
+* Créer un compte avec le rôle PARTICIPANT
+* Consulter la liste des evenements
+* Acheter un ou plusieurs tickets (vérification du stock et du statut)
+
+### En tant qu'organisateur
+
+* Créer un compte avec le rôle ORGANISATEUR
+* Ajouter de nouveaux evenements(titre, date, lieu, description, genre musiacl, artistes)
+* Modifier les concerts créés
+
+## 8. Avancement
+
+* [X]  CRUD complet sur les entités principales (Utilisateur, Evenement, Ticket, Artiste...)
+* [X]  Gestion des rôles et du jeton d'accès
+* [X]  Communication REST entre front et back
+* [X]  Design responsive et moderne (TailwindCSS)
+* [X]  Inscripstion utilisateur & connexion
+* [X]  Affichage de la liste des evenements si PARTICIPANT, et création d'évenements en plus si ORGANISATEUR
+* [X]  Notifications et affichage des artistes/genres musicaux
+
+## 9. Auteurs
+
+* BAH Oumou
+* N'GUESSAN Fleur
+* Etudiantes en Master MIAGE à l'Université de Rennes
+
+Merci à Monsieur **BARAIS Olivier** et Monsieur **Blot Aymeric** pour leur encadrement.
+
+Merci pour votre lecture et votre intérêt pour ce projet réalisé dans le cadre d'un projet académique .
