@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import enums.StatutEvenement;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -156,6 +157,7 @@ public class Evenement {
 	}
 
 	@ManyToMany
+	@JsonManagedReference
 	public List<Artiste> getArtistes() {
 		return artistes;
 	}
@@ -164,7 +166,9 @@ public class Evenement {
 		this.artistes = artistes;
 	}
 
+
 	@ManyToMany
+	@JsonManagedReference
 	public List<GenreMusical> getGenreMusicaux() {
 		return genreMusicaux;
 	}

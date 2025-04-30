@@ -3,6 +3,7 @@ package domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -44,6 +45,7 @@ public void setNom(String nom) {
 
 
 @ManyToMany(mappedBy = "genreMusicaux", cascade = CascadeType.PERSIST)
+@JsonBackReference
 public List<Evenement> getEvenements() {
 	return evenements;
 }

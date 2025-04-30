@@ -1,13 +1,16 @@
 'use client';
 import { NavLink } from './NavLink';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import type { LinkProps } from 'next/link';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
+import { EventMenu } from '@app/components/EventMenu/EventMenu';
+
 
 const navbarMainItems = [
   { ref: '/', label: 'ACCUEIL' },
-  { ref: '/shop', label: 'EVENEMENTS' },
+  { ref: '/event', label: 'EVENEMENTS' },
+
 ];
 
 const navbarSecondrayItems = [
@@ -38,6 +41,11 @@ export function NavBar() {
   const pathname = usePathname();
   const [linkRef, setLinkRef] = useState<LinkProps['href']>(pathname!);
 
+
+  const closeMenu = () => {
+    setIsMenuShown(false);
+  };
+
   return (
     <div className="relative">
       <button
@@ -62,7 +70,7 @@ export function NavBar() {
       {isMenuShown && (
         <div 
           className="fixed inset-0 bg-black bg-opacity-50 z-40"
-          onClick={() => setIsMenuShown(false)}
+          onClick={closeMenu}
         />
       )}
 
@@ -70,10 +78,11 @@ export function NavBar() {
       <div className={`fixed top-0 right-0 h-full w-full md:w-80 bg-black transform transition-transform duration-300 ease-in-out z-50 ${
         isMenuShown ? 'translate-x-0' : 'translate-x-full'
       }`}>
-        <div className="flex flex-col h-full p-6">
-          <div className="flex justify-end">
-            <button
-              onClick={() => setIsMenuShown(false)}
+
+          <div className="flex flex-col h-full p-6">
+            <div className="flex justify-end">
+              <button
+              onClick={closeMenu}
               className="text-white p-2"
               aria-label="Fermer le menu"
             >
@@ -103,9 +112,9 @@ export function NavBar() {
                       href={ref}
                       isActive={ref === linkRef}
                       className="text-xl text-white hover:text-purple-300 transition-colors"
-                      onClick={() => {
-                        setLinkRef(ref);
-                        setIsMenuShown(false);
+                      onClick={(e) => {
+                       setLinkRef(ref);
+                       closeMenu();
                       }}
                     >
                       {label}
@@ -125,7 +134,7 @@ export function NavBar() {
                       className="text-sm text-gray-400 hover:text-white transition-colors"
                       onClick={() => {
                         setLinkRef(ref);
-                        setIsMenuShown(false);
+                        closeMenu();
                       }}
                     >
                       {label}
