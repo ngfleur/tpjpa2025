@@ -4,6 +4,7 @@ import Header from '@app/components/Layout/Header';
 import { ReactNode } from 'react';
 import { Toast, UIProvider } from '@app/components/Provider/UIContext';
 import { LoginModal } from '@app/components/Modal/LoginModal';
+import {RegistrationModal} from "@components/Modal/RegistrationModal";
 
 interface LayoutProps {
   children: ReactNode;
@@ -18,6 +19,7 @@ export default function RootLayout({ children }: LayoutProps) {
         <Header />
         <main className="flex-1">{children}</main>
         <LoginModal />
+        <RegistrationModal />
         <Footer />
         <Toast />
       </div>
