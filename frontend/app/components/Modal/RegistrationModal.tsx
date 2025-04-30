@@ -3,14 +3,14 @@
 import React, { useState } from 'react';
 import { useUI } from '@app/components/Provider/UIContext';
 
-type LoginFormData = {
+type RegistrationFormData = {
   email: string;
   password: string;
 };
 
-export const LoginModal = () => {
+export const RegistrationModal = () => {
   const { openModal, closeModal, isModalOpen, modalView } = useUI();
-  const [formData, setFormData] = useState<LoginFormData>({
+  const [formData, setFormData] = useState<RegistrationFormData>({
     email: '',
     password: '',
   });
@@ -60,13 +60,13 @@ export const LoginModal = () => {
     }));
   };
 
-  if (!isModalOpen || modalView !== 'LOGIN') return null;
+  if (!isModalOpen || modalView !== 'REGISTRATION') return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-white rounded-lg p-6 w-96 max-w-md">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold">Connexion</h2>
+          <h2 className="text-xl font-semibold">Inscription</h2>
           <button
             onClick={closeModal}
             className="text-gray-500 hover:text-gray-700"
@@ -119,22 +119,10 @@ export const LoginModal = () => {
               className="text-sm text-blue-600 hover:text-blue-800"
               onClick={() => {
                 closeModal();
-                openModal('REGISTRATION');
+                openModal('LOGIN');
               }}
             >
-              Inscription
-            </button>
-
-
-            <button
-                type="button"
-                className="text-sm text-blue-600 hover:text-blue-800"
-                onClick={() => {
-                  // Implémenter la logique de mot de passe oublié
-                  console.log('Mot de passe oublié');
-                }}
-            >
-              Mot de passe oublié ?
+              Connexion
             </button>
           </div>
 
@@ -163,7 +151,7 @@ export const LoginModal = () => {
                   Chargement...
                 </span>
               ) : (
-                'Se connecter'
+                "S'inscrire"
               )}
             </button>
           </div>
