@@ -43,7 +43,7 @@ export const LoginModal = () => {
                     console.log("data =", data);
                     localStorage.setItem('authToken', data.token);
                     localStorage.setItem('authUtilisateur', JSON.stringify(data.utilisateur));
-                    //window.location.reload();
+                    window.location.reload();
                     break;
                 case 401:
                     toast.error(await response.text());

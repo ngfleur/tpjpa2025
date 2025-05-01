@@ -15,6 +15,7 @@ public class EvenementDtoOut {
     private int capacite;
     private int inscrits;
     private Long salleId;
+    private Long organisateurId;
 
     // Constructeur pour remplir depuis une entité
     public EvenementDtoOut(Evenement evt) {
@@ -28,6 +29,7 @@ public class EvenementDtoOut {
         this.capacite = evt.getCapacite();
         this.inscrits = evt.getInscrits();
         this.salleId = evt.getSalle() != null ? evt.getSalle().getId() : null;
+        this.organisateurId = evt.getOrganisateur() != null ? evt.getOrganisateur().getId() : null;
     }
 
     // Getters
@@ -69,5 +71,9 @@ public class EvenementDtoOut {
 
     public Long getSalleId() {
         return salleId;
+    }
+
+    public Long getOrganisateurId() {
+        return organisateurId;
     }
 }

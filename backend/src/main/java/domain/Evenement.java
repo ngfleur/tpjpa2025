@@ -21,13 +21,14 @@ public class Evenement {
     private int capacite;
     private int inscrits;
     private Salle salle;
+    private Utilisateur organisateur;
     private List<Artiste> artistes = new ArrayList<>();
     private List<GenreMusical> genreMusicaux = new ArrayList<>();
     private List<Notification> notifs = new ArrayList<>();
     private List<Ticket> tickets = new ArrayList<>();
 
     // Constructeur mis à jour
-    public Evenement(String titre, Date dateDebut, Date dateFin, String lieu, Double prix, String description, int capacite) {
+    public Evenement(String titre, Date dateDebut, Date dateFin, String lieu, Double prix, String description, int capacite, Utilisateur organisateur, Salle salle) {
         this.titre = titre;
         this.description = description;
         this.lieu = lieu;
@@ -36,6 +37,8 @@ public class Evenement {
         this.prix = prix;
         this.capacite = capacite;
         this.inscrits = 0;
+        this.organisateur = organisateur;
+        this.salle = salle;
     }
 
     // Constructeur par défaut
@@ -121,6 +124,15 @@ public class Evenement {
         if (inscrits < capacite) {
             inscrits++;
         }
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    public Utilisateur getOrganisateur() {
+        return organisateur;
+    }
+
+    public void setOrganisateur(Utilisateur organisateur) {
+        this.organisateur = organisateur;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)

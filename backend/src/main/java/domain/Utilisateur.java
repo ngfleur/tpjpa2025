@@ -1,5 +1,6 @@
 package domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import enums.RoleUtilisateur;
 import jakarta.persistence.*;
 
@@ -22,6 +23,8 @@ public class Utilisateur {
 
     //role: admin, organisateur, participant
     private RoleUtilisateur role;
+
+    private List<Evenement> evenements = new ArrayList<Evenement>();
 
     // Liste des tickets achétés par un utilisateur
     private List<Ticket> tickets = new ArrayList<Ticket>();
@@ -119,5 +122,13 @@ public class Utilisateur {
         this.notifs = notifs;
     }
 
+    @OneToMany(mappedBy = "organisateur")
+    @JsonIgnoreProperties("organisateur")
+    public List<Evenement> getEvenements() {
+        return evenements;
+    }
 
+    public void setEvenements(List<Evenement> evenements) {
+        this.evenements = evenements;
+    }
 }

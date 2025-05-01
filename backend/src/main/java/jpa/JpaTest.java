@@ -49,6 +49,10 @@ public class JpaTest {
                 cal.add(Calendar.HOUR, 2);
                 Date dateFin = cal.getTime();
 
+                Long id = (long) (i % 3 + 1);
+                Utilisateur organisateur = manager.find(Utilisateur.class, id);
+                Salle salle = manager.find(Salle.class, id);
+
                 Evenement evt = new Evenement();
                 evt.setTitre("Événement test " + (i + 1));
                 evt.setDescription("Description de l'événement test " + (i + 1));
@@ -57,7 +61,11 @@ public class JpaTest {
                 evt.setLieu("Lieu test " + (i + 1));
                 evt.setPrix(10.0 + i);
                 evt.setCapacite(100 + i * 10);
-                evt.setSalle(manager.find(Salle.class, (long) (i % 3 + 1)));
+                evt.setSalle(salle);
+                evt.setOrganisateur(organisateur);
+
+                organisateur.getEvenements().add(evt);
+                salle.getEvenements().add(evt);
 
                 manager.persist(evt);
             }

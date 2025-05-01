@@ -1,10 +1,13 @@
 package rest;
 
 import dao.EvenementDao;
+import dao.UtilisateurDao;
 import domain.Artiste;
 import domain.Evenement;
 import domain.GenreMusical;
+import domain.Utilisateur;
 import dto.EvenementDtoOut;
+import enums.RoleUtilisateur;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
@@ -20,6 +23,14 @@ import java.util.stream.Collectors;
 public class EvenementRessource {
 
     private final EvenementDao evenementDao = new EvenementDao();
+    private final UtilisateurDao utilisateurDao = new UtilisateurDao();
+
+    @GET
+    public List<EvenementDtoOut> getAllEvenements() {
+        return evenementDao.getAllEvenement().stream()
+                .map(EvenementDtoOut::new)
+                .collect(Collectors.toList());
+    }
 
     @GET
     @Path("/{id}")
@@ -34,10 +45,21 @@ public class EvenementRessource {
     }
 
     @GET
-    public List<EvenementDtoOut> getAllEvenements() {
-        return evenementDao.getAllEvenement().stream()
+    @Path("/by-organisateur/{organisateurId}")
+    public Response getEvenementsByOrganisateurId(@PathParam("organisateurId") Long organisateurId) {
+        Utilisateur user = utilisateurDao.getUtilisateurById(organisateurId);
+        if (user == null) {
+            return Response.status(Response.Status.NOT_FOUND).entity("Utilisateur non trouvé").build();
+        }
+        if (!user.getRole().equals(RoleUtilisateur.Organisateur)) {
+            return Response.status(Response.Status.UNAUTHORIZED).entity("Cet utilisateur n'est pas un organisateur").build();
+        }
+
+        List<EvenementDtoOut> evts = user.getEvenements().stream()
                 .map(EvenementDtoOut::new)
                 .collect(Collectors.toList());
+
+        return Response.ok(evts).build();
     }
 
     @POST

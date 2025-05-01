@@ -1,6 +1,6 @@
 'use client';
 import {NavLink} from './NavLink';
-import {useState} from 'react';
+import {ReactNode, useState} from 'react';
 import type {LinkProps} from 'next/link';
 import {usePathname} from 'next/navigation';
 import Image from 'next/image';
@@ -15,7 +15,7 @@ interface NavBarItem {
 const navbarMainItems: NavBarItem[] = [
     {ref: '/', label: 'Accueil', roles: []},
     {ref: '/create-event', label: 'Créer un évènement', roles: [RoleUtilisateur.Organisateur]},
-    {ref: '/my-events', label: 'Mes évènements', roles: [RoleUtilisateur.Organisateur]},
+    {ref: '/evenements', label: 'Mes évènements', roles: [RoleUtilisateur.Organisateur]},
     {ref: '/my-tickets', label: 'Mes tickets', roles: [RoleUtilisateur.Participant]},
 ];
 
@@ -115,8 +115,8 @@ export function NavBar() {
                                 {navbarMainItems.map((item) => {
                                     if (item.roles.length !== 0 && localStorage.getItem('authToken') && localStorage.getItem('authUtilisateur')) {
                                         const token = localStorage.getItem('authToken');
-                                        const utilisateur = JSON.parse(localStorage.getItem('authUtilisateur'));
-
+                                        const utilisateur = JSON.parse(localStorage.getItem('authUtilisateur')!);
+   
                                         if (!item.roles.includes(utilisateur.role)) {
                                             return;
                                         }

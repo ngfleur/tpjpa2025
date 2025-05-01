@@ -1,161 +1,149 @@
 'use client';
-import React, {useCallback, useState} from 'react';
 import {Evenement} from '@app/types/evenement';
-import {format} from 'date-fns';
-import {fr} from 'date-fns/locale';
-import {TicketQuantity} from 'app/components/Quantity/TicketQuantity';
+import Image from "next/image";
+import Link from "next/link";
+import React, {useState} from "react";
+
+interface EventState {
+    [key: number]: boolean;
+}
 
 interface EvenementListProps {
     evenements: Evenement[];
-    onReservation?: (evenementId: number, quantity: number) => Promise<void>;
 }
 
-interface SelectedTickets {
-    [key: string]: string; // Changé en string pour correspondre au type attendu
-}
+export function EvenementList({evenements = []}: EvenementListProps) {
+    const [openEvents, setOpenEvents] = useState<EventState>({});
+    const availableImages = ['1.jpg', '2.jpg'];
 
-interface LoadingState {
-    [key: string]: boolean;
-}
-
-/*export const EvenementList: React.FC<EvenementListProps> = ({
-  evenements,
-  onReservation 
-}) => {*/
-export function EvenementList({evenements = [], onReservation}: EvenementListProps) {
-    const [selectedQuantity, setSelectedQuantity] = useState<{ [key: number]: number }>({});
-    const [selectedTickets, setSelectedTickets] = useState<SelectedTickets>({});
-    const [isLoading, setIsLoading] = useState<LoadingState>({});
-
-    const handleQuantityChange = useCallback(
-        (evenementId: number, quantity: number) => {
-            setSelectedTickets((prev) => ({
-                ...prev,
-                [evenementId]: quantity,
-            }));
-        },
-        []
-    );
-
-    const handleReservation = async (evenementId: number) => {
-        try {
-            setIsLoading((prev) => ({...prev, [evenementId]: true}));
-
-            if (onReservation) {
-                const quantity = parseInt(selectedTickets[evenementId] || '1'); // Conversion en number
-                await onReservation(evenementId, quantity);
-            }
-
-            setSelectedTickets((prev) => {
-                const {[evenementId]: _, ...rest} = prev;
-                return rest;
-            });
-        } catch (error) {
-            console.error('Erreur lors de la réservation:', error);
-        } finally {
-            setIsLoading((prev) => ({...prev, [evenementId]: false}));
-        }
-    };
-
-    const renderEvenementDetails = (evenement: Evenement) => (
-        <div className="text-sm text-gray-600 space-y-2">
-            <p>
-                <span className="font-semibold">Date : </span>
-                {format(new Date(evenement.dateDebut), 'dd MMMM yyyy HH:mm', {locale: fr})}
-            </p>
-            <p>
-                <span className="font-semibold">Lieu : </span>
-                {evenement.lieu}
-            </p>
-            <p>
-                <span className="font-semibold">Prix : </span>
-                {evenement.prix}€
-            </p>
-            <p>
-                <span className="font-semibold">Places : </span>
-                {evenement.inscrits}/{evenement.capacite}
-            </p>
-            <div className={`inline-block px-3 py-1 rounded-full text-sm ${getStatutColor(evenement.statut)}`}>
-                {evenement.statut}
-            </div>
-        </div>
-    );
-
-    const renderReservationSection = (evenement: Evenement, placesDisponibles: number) => {
-        const isEventLoading = isLoading[evenement.id] || false;
-        const currentValue = parseInt(selectedTickets[evenement.id] || '1'); // Conversion en number pour value
-
-        return (
-            <div className="mt-4">
-                <TicketQuantity
-                    value={currentValue}
-                    onChange={(quantity) => handleQuantityChange(evenement.id, quantity)}
-                    maxPlaces={5}
-                    placesDisponibles={placesDisponibles}
-                    size="md"
-                />
-                <button
-                    className="mt-2 w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
-                    disabled={isEventLoading}
-                    onClick={() => handleReservation(evenement.id)}
-                >
-                    {isEventLoading ? (
-                        <span className="flex items-center justify-center">
-              <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
-                   viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-                <path className="opacity-75" fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
-              </svg>
-              Réservation en cours...
-            </span>
-                    ) : (
-                        'Réserver'
-                    )}
-                </button>
-            </div>
-        );
-    };
-
-    const renderEvenement = (evenement: Evenement) => {
-        const placesDisponibles = evenement.capacite - evenement.inscrits;
-        const canReserve = placesDisponibles > 0;
-
-        return (
-            <div key={evenement.id} className="bg-white rounded-lg shadow-md p-6 flex flex-col">
-                <div className="flex-grow">
-                    <h3 className="text-xl font-bold mb-2">{evenement.titre}</h3>
-                    {renderEvenementDetails(evenement)}
-                </div>
-                {canReserve && renderReservationSection(evenement, placesDisponibles)}
-            </div>
-        );
+    const toggleEvent = (id: number) => {
+        setOpenEvents((prev: EventState) => ({
+            // Ajout du type EventState ici
+            ...prev,
+            [id]: !prev[id],
+        }));
     };
 
     return (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {evenements && evenements.length > 0 ? (
-                evenements.map(renderEvenement)
-            ) : (
-                <p className="text-white">Aucun événement disponible.</p>
-            )}
+        <div className="py-10 text-site">
+            {evenements.map((evenement, index) => {
+                // Boucler sur les images disponibles en utilisant l'index
+                const imageIndex = index % availableImages.length;
+                const imageSrc = `/images/events/${availableImages[imageIndex]}`;
+
+                return (
+                    <div
+                        key={evenement.id}
+                        data-testid="ticket-item.container"
+                        className="group/event flex border-b last:border-0 hover:border-purple-500 gap-4 sm:gap-8 flex-col sm:flex-row py-4 sm:py-0 transition-colors duration-300"
+                    >
+                        <div
+                            className="flex flex-1 sm:items-center gap-4 sm:gap-4 md:gap-8 flex-col sm:flex-row sm:py-3">
+                            <div
+                                className="sm:group-hover/event:overflow-hidden transition-all duration-300 ease-out w-full max-w-fit sm:group-hover/event:w-0">
+                                <div
+                                    className="flex flex-col min-w-fit sm:flex-row overflow-hidden sm:gap-4 md:gap-8 relative">
+                                    <div
+                                        className="w-[310px] h-[171px] sm:w-[80px] sm:h-[80px] overflow-hidden sm:group-hover/event:opacity-0 transition-opacity duration-300">
+                                        <div className="flex items-center justify-center h-full">
+                                            <div
+                                                className="overflow-hidden relative group w-full h-full">
+                                                <Image
+                                                    src={imageSrc}
+                                                    alt={evenement.titre}
+                                                    width={300}
+                                                    height={300}
+                                                    className="object-cover w-full group-hover:scale-110 transition duration-300 ease-in-out"
+                                                    onError={(e) => {
+                                                        e.currentTarget.src = '/images/events/default.jpg'; // Image par défaut
+                                                    }}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        className="flex gap-4 items-center absolute bottom-2 left-2 sm:bottom-auto sm:left-auto sm:relative">
+                          <span className="text-4xl">
+                            {new Date(evenement.dateDebut)
+                                .getDate()
+                                .toString()
+                                .padStart(2, '0')}
+                          </span>
+                                        <div className="flex flex-col text-xs">
+                            <span className="text-white sm:text-gray-600">
+                              {new Date(evenement.dateDebut).toLocaleDateString(
+                                  'fr-FR',
+                                  {weekday: 'short'}
+                              )}
+                            </span>
+                                            <span>
+                              {new Date(evenement.dateDebut).toLocaleDateString(
+                                  'fr-FR',
+                                  {month: 'short'}
+                              )}
+                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="grow flex flex-col hover:text-purple-500">
+                                <button
+                                    onClick={() => toggleEvent(evenement.id)}
+                                    className="text-left w-full h-full group/button text-2xl"
+                                >
+                                    {evenement.titre}
+                                    <svg
+                                        fill="none"
+                                        className="w-4 h-4 inline ml-3 opacity-0 group-hover/button:opacity-100"
+                                        stroke="currentColor"
+                                        strokeWidth="1.5"
+                                        viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        aria-hidden="true"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                                        ></path>
+                                    </svg>
+                                </button>
+                                <div
+                                    className={`text-sm text-gray-600 transition-all ease-in ${
+                                        openEvents[evenement.id]
+                                            ? 'pointer-events-auto opacity-100 h-auto py-3'
+                                            : 'pointer-events-none opacity-0 h-0'
+                                    }`}
+                                >
+                                    <p>
+                                        {evenement.dateDebut.toLocaleString('fr-FR', {
+                                            year: 'numeric',
+                                            month: 'long',
+                                            day: 'numeric',
+                                            hour: '2-digit',
+                                            minute: '2-digit',
+                                        })}{' '}
+                                        –{' '}
+                                        {evenement.dateFin.toLocaleString('fr-FR', {
+                                            hour: '2-digit',
+                                            minute: '2-digit',
+                                        })}
+                                    </p>
+                                    <p>{evenement.lieu}</p>
+                                    <p className="mt-3">{evenement.description}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <Link
+                            href={`/evenements/${evenement.id}`}
+                            data-testid="ticket-item.select.cta"
+                            className="btn-main my-2 sm:my-10 rounded-2xl w-full text-center sm:w-auto h-fit min-w-fit"
+                        >
+                            Plus d'infos
+                        </Link>
+                    </div>
+                );
+            })}
         </div>
     );
-};
-
-const getStatutColor = (statut: StatutEvenement): string => {
-    switch (statut) {
-        case StatutEvenement.OUVERT:
-            return 'bg-green-100 text-green-800';
-        case StatutEvenement.COMPLET:
-            return 'bg-red-100 text-red-800';
-        case StatutEvenement.EN_COURS:
-            return 'bg-blue-100 text-blue-800';
-        case StatutEvenement.TERMINE:
-            return 'bg-gray-100 text-gray-800';
-        case StatutEvenement.ANNULE:
-            return 'bg-red-100 text-red-800';
-        default:
-            return 'bg-gray-100 text-gray-800';
-    }
-};
+}
