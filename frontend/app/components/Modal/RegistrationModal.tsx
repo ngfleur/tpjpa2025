@@ -2,7 +2,7 @@
 
 import React, {useState} from 'react';
 import {useUI} from '@app/components/Provider/UIContext';
-import {RoleUtilisateur} from "@app/utils/enums";
+import {RoleUtilisateur} from "@app/types/utilisateur";
 import {toast} from "sonner";
 
 type RegistrationFormData = {
@@ -17,11 +17,11 @@ type RegistrationFormData = {
 export const RegistrationModal = () => {
     const {openModal, closeModal, isModalOpen, modalView} = useUI();
     const [formData, setFormData] = useState<RegistrationFormData>({
-        name: 'test',
-        firstName: 'test',
-        email: 'test@test.com',
-        password: 'test',
-        role: RoleUtilisateur.PARTICIPANT,
+        name: '',
+        firstName: '',
+        email: '',
+        password: '',
+        role: RoleUtilisateur.Participant,
     });
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);

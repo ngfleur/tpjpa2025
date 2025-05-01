@@ -16,7 +16,11 @@ export const Login = () => {
                 </button>
             ) : (
                 <button
-                    onClick={() => localStorage.removeItem('authToken')}
+                    onClick={() => {
+                        localStorage.removeItem('authToken');
+                        localStorage.removeItem('authUtilisateur');
+                        window.location.reload();
+                    }}
                     className="px-4 py-2 text-black hover:text-gray-600 transition-colors"
                 >
                     Déconnexion

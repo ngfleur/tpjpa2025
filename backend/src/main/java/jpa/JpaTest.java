@@ -22,10 +22,12 @@ public class JpaTest {
         tx.begin();
 
         try {
-            // Un utilisateur de test
+            // Des utilisateurs de test
             String pw = BCrypt.hashpw("test", BCrypt.gensalt());
-            Utilisateur user = new Utilisateur("test", "test", "test@test.com", pw, RoleUtilisateur.ORGANISATEUR);
-            manager.persist(user);
+            for (RoleUtilisateur role : RoleUtilisateur.values()) {
+                Utilisateur user = new Utilisateur(role.name().toLowerCase(), "test", role.name().toLowerCase() + "@test.com", pw, role);
+                manager.persist(user);
+            }
 
             // Des salles de test avec leurs places
             for (int i = 1; i <= 3; i++) {

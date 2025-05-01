@@ -1,5 +1,6 @@
 package rest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import dao.UtilisateurDao;
 import domain.Utilisateur;
 import dto.ConnexionDto;
@@ -11,7 +12,9 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Path("utilisateur")
@@ -45,15 +48,15 @@ public class UtilisateurRessource {
 
             // --- Génération d'un faux token (plus tard tu peux mettre JWT) ---
             String token = "dummy-token-for-user-" + utilisateur.getId();
+            UtilisateurDtoOut utilisateurDtoOut = new UtilisateurDtoOut(utilisateur);
 
             // --- Retour d'un JSON avec le token ---
-            String responseJson = "{\"token\": \"" + token + "\"}";
+            Map<String, Object> response = new HashMap<>();
+            response.put("token", token);
+            response.put("utilisateur", utilisateurDtoOut);
+            String responseJson = new ObjectMapper().writeValueAsString(response);
 
             return Response.ok(responseJson).build();
-
-            // Authentification réussie
-            /*UtilisateurDtoOut utilisateurDtoOut = new UtilisateurDtoOut(utilisateur);
-            return Response.ok(utilisateurDtoOut).build();*/
         } catch (Exception e) {
             e.printStackTrace();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Erreur serveur").build();
@@ -88,7 +91,9 @@ public class UtilisateurRessource {
             utilisateurDao.save(newUser);
 
             String token = "dummy-token-for-user-" + newUser.getId();
-            String responseJson = "{\"token\": \"" + token + "\"}";
+            Map<String, Object> response = new HashMap<>();
+            response.put("token", token);
+            String responseJson = new ObjectMapper().writeValueAsString(response);
 
             return Response.status(Response.Status.CREATED).entity(responseJson).build();
 

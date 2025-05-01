@@ -4,17 +4,19 @@ import {useState} from 'react';
 import type {LinkProps} from 'next/link';
 import {usePathname} from 'next/navigation';
 import Image from 'next/image';
+import {RoleUtilisateur} from "@app/types/utilisateur";
 
 interface NavBarItem {
     ref: string,
     label: string,
-    authRequired?: boolean,
+    roles: RoleUtilisateur[],
 }
 
 const navbarMainItems: NavBarItem[] = [
-    {ref: '/', label: 'ACCUEIL'},
-    {ref: '/my-events', label: 'MES EVENEMENTS', authRequired: true},
-    {ref: '/my-tickets', label: 'MES TICKETS', authRequired: true},
+    {ref: '/', label: 'Accueil', roles: []},
+    {ref: '/create-event', label: 'Créer un évènement', roles: [RoleUtilisateur.Organisateur]},
+    {ref: '/my-events', label: 'Mes évènements', roles: [RoleUtilisateur.Organisateur]},
+    {ref: '/my-tickets', label: 'Mes tickets', roles: [RoleUtilisateur.Participant]},
 ];
 
 const navbarSecondrayItems: NavBarItem[] = [];
@@ -111,7 +113,14 @@ export function NavBar() {
                         <nav className="w-full">
                             <ul className="space-y-4">
                                 {navbarMainItems.map((item) => {
-                                    if (item.authRequired && !localStorage.getItem('authToken')) {
+                                    if (item.roles.length !== 0 && localStorage.getItem('authToken') && localStorage.getItem('authUtilisateur')) {
+                                        const token = localStorage.getItem('authToken');
+                                        const utilisateur = JSON.parse(localStorage.getItem('authUtilisateur'));
+
+                                        if (!item.roles.includes(utilisateur.role)) {
+                                            return;
+                                        }
+                                    } else if (item.roles.length !== 0) {
                                         return;
                                     }
 
@@ -120,7 +129,7 @@ export function NavBar() {
                                             <StyledNavLink
                                                 href={item.ref}
                                                 isActive={item.ref === linkRef}
-                                                className="text-xl text-white hover:text-purple-300 transition-colors"
+                                                className="text-xl text-white hover:text-purple-300 transition-colors uppercase"
                                                 onClick={(e) => {
                                                     setLinkRef(item.ref);
                                                     closeMenu();

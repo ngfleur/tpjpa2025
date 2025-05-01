@@ -1,9 +1,9 @@
 package enums;
 
 public enum RoleUtilisateur {
-    ADMIN("Admin"),
-    ORGANISATEUR("Organisateur"),
-    PARTICIPANT("Participant");
+    Admin("Admin"),
+    Organisateur("Organisateur"),
+    Participant("Participant");
 
     private String role;
 
