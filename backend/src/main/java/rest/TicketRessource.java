@@ -11,7 +11,6 @@ import domain.Utilisateur;
 import dto.TicketDtoIn;
 import dto.TicketDtoOut;
 import io.swagger.v3.oas.annotations.Parameter;
-import jakarta.persistence.EntityTransaction;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Application;
 import jakarta.ws.rs.core.Response;
@@ -49,7 +48,7 @@ public class TicketRessource extends Application {
         Place place = placeDao.getPlaceById(dto.getPlaceId());
         Evenement evenement = evenementDao.getEvenementById(dto.getEvenementId());
 
-        Ticket ticket = new Ticket(dto.getPrixPaye(), utilisateur, place, evenement);
+        Ticket ticket = new Ticket(evenement.getPrix(), utilisateur, place, evenement);
         ticketDao.save(ticket, utilisateur, place, evenement);
 
         return Response.ok("Ticket ajouté avec succès").build();
@@ -63,7 +62,7 @@ public class TicketRessource extends Application {
         Evenement evenement = evenementDao.getEvenementById(dto.getEvenementId());
 
         Ticket ticket = ticketDao.getTicketById(id);
-        ticket.setPrixPaye(dto.getPrixPaye());
+        ticket.setPrixPaye(evenement.getPrix());
         ticket.setUtilisateur(utilisateur);
         ticket.setPlace(place);
         ticket.setEvenement(evenement);
@@ -85,65 +84,53 @@ public class TicketRessource extends Application {
     public Response acheterTicket(
             @Parameter(description = "Détails de l'achat", required = true) TicketDtoIn dto,
             @HeaderParam("Authorization") String authHeader) {
-        EntityTransaction tx = ticketDao.getManager().getTransaction();
-        try {
-            tx.begin();
 
-            // Vérifier le jeton d'authentification
-            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-                return Response.status(Response.Status.UNAUTHORIZED).entity("Jeton manquant ou invalide").build();
-            }
-
-            String token = authHeader.substring(7); // Supprimer "Bearer "
-            // Validation fictive du jeton (remplacez par JWT plus tard)
-            if (!token.startsWith("dummy-token-for-user-")) {
-                return Response.status(Response.Status.UNAUTHORIZED).entity("Jeton invalide").build();
-            }
-
-            // Extraire l'ID utilisateur du jeton
-            Long utilisateurId = Long.parseLong(token.replace("dummy-token-for-user-", ""));
-            Utilisateur utilisateur = utilisateurDao.getUtilisateurById(utilisateurId);
-            if (utilisateur == null) {
-                return Response.status(Response.Status.UNAUTHORIZED).entity("Utilisateur non trouvé").build();
-            }
-
-            // Vérifier l'événement
-            Evenement evenement = evenementDao.getEvenementById(dto.getEvenementId());
-            if (evenement == null) {
-                return Response.status(Response.Status.NOT_FOUND).entity("Événement non trouvé").build();
-            }
-
-            // Vérifier la disponibilité et le statut
-            if (evenement.getInscrits() >= evenement.getCapacite()) {
-                return Response.status(Response.Status.BAD_REQUEST).entity("Événement complet").build();
-            }
-
-            // Vérifier la place
-            Place place = placeDao.getPlaceById(dto.getPlaceId());
-            if (place == null) {
-                return Response.status(Response.Status.NOT_FOUND).entity("Place non trouvée").build();
-            }
-
-            // Créer un ticket standard (par défaut)
-            Ticket ticket = new Ticket(dto.getPrixPaye(), utilisateur, place, evenement);
-
-            // Enregistrer le ticket
-            ticketDao.save(ticket, utilisateur, place, evenement);
-
-            // Incrémenter le nombre d'inscrits
-            evenement.incrementerInscrits();
-            evenementDao.update(evenement);
-
-            tx.commit();
-
-            return Response.ok(toDto(ticket)).build();
-        } catch (Exception e) {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
-            e.printStackTrace();
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Erreur lors de l'achat du ticket").build();
+        // Vérifier le jeton d'authentification
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return Response.status(Response.Status.UNAUTHORIZED).entity("Jeton manquant ou invalide").build();
         }
+
+        String token = authHeader.replace("Bearer ", ""); // Supprimer "Bearer "
+        // Validation fictive du jeton (remplacez par JWT plus tard)
+        if (!token.startsWith("dummy-token-for-user-")) {
+            return Response.status(Response.Status.UNAUTHORIZED).entity("Jeton invalide").build();
+        }
+
+        // Extraire l'ID utilisateur du jeton
+        Long utilisateurId = Long.parseLong(token.replace("dummy-token-for-user-", ""));
+        Utilisateur utilisateur = utilisateurDao.getUtilisateurById(utilisateurId);
+        if (utilisateur == null) {
+            return Response.status(Response.Status.UNAUTHORIZED).entity("Utilisateur non trouvé").build();
+        }
+
+        // Vérifier l'événement
+        Evenement evenement = evenementDao.getEvenementById(dto.getEvenementId());
+        if (evenement == null) {
+            return Response.status(Response.Status.NOT_FOUND).entity("Événement non trouvé").build();
+        }
+
+        // Vérifier la disponibilité et le statut
+        if (evenement.getInscrits() >= evenement.getCapacite()) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Événement complet").build();
+        }
+
+        // Vérifier la place
+        Place place = placeDao.getPlaceById(dto.getPlaceId());
+        if (place == null) {
+            return Response.status(Response.Status.NOT_FOUND).entity("Place non trouvée").build();
+        }
+
+        // Créer un ticket standard (par défaut)
+        Ticket ticket = new Ticket(evenement.getPrix(), utilisateur, place, evenement);
+
+        // Enregistrer le ticket
+        ticketDao.save(ticket, utilisateur, place, evenement);
+
+        // Incrémenter le nombre d'inscrits
+        evenement.incrementerInscrits();
+        evenementDao.update(evenement);
+
+        return Response.ok(toDto(ticket)).build();
     }
 
     private TicketDtoOut toDto(Ticket ticket) {

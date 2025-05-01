@@ -99,7 +99,7 @@ export default function EventPage() {
                     )} */}
 
                     <h1 className="text-3xl font-bold text-white mb-8">Événements</h1>
-                    <HomeScreen evenements={evenements}/>
+                    <HomeScreen/>
                 </div>
             </div>
         </div>

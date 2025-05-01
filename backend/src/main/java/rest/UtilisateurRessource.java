@@ -44,8 +44,7 @@ public class UtilisateurRessource {
             }
 
             // --- Génération d'un faux token (plus tard tu peux mettre JWT) ---
-            String role = utilisateur.getRole() != null ? utilisateur.getRole().toString() : "UTILISATEUR"; // Valeur par défaut si rôle null
-            String token = "dummy-token-for-user-" + utilisateur.getId() + "-" + role;
+            String token = "dummy-token-for-user-" + utilisateur.getId();
 
             // --- Retour d'un JSON avec le token ---
             String responseJson = "{\"token\": \"" + token + "\"}";

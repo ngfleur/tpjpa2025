@@ -22,42 +22,15 @@ export default function EvenementPage({params}: { params: { id: number } }) {
     const handleAchatTicket = async () => {
         console.log('Tentative d\'achat, connecté ?', isLoggedIn());
 
-        // Vérifier si openModal est défini
-        if (!openModal) {
-            console.error('openModal n\'est pas défini dans useUI');
-            addToast('Erreur: Impossible d\'ouvrir la modale de connexion', 'error');
-            return;
-        }
-
         // Si l'utilisateur n'est pas connecté, ouvrir la modale de connexion
         if (!isLoggedIn()) {
-            try {
-                openModal('LOGIN');
-                //return;
-                console.log('Modale de connexion ouverte');
-            } catch (error) {
-                console.error('Erreur lors de l\'ouverture de la modale:', error);
-                addToast('Erreur lors de l\'ouverture de la modale de connexion', 'error');
-            }
-
+            openModal('LOGIN');
             return;
-
         }
 
         // Si l'utilisateur est connecté, procéder à l'achat
         setIsLoading(true);
         try {
-
-            // Vérifier evenement
-            if (!evenement) {
-                throw new Error('Événement non trouvé');
-            }
-
-            // Vérifier le prix
-            if (evenement.prix === undefined || evenement.prix === null) {
-                throw new Error('Prix de l\'événement non défini');
-            }
-
             // Extraire l'ID utilisateur du jeton
             let token: string | undefined | null = Cookies.get('auth-token');
             if (!token) {
@@ -79,16 +52,22 @@ export default function EvenementPage({params}: { params: { id: number } }) {
                     Authorization: `Bearer ${token}`,
                 },
                 body: JSON.stringify({
-                    prixPaye: evenement.prix,
                     utilisateurId: utilisateurId,
-                    placeId: 1, // Place par défaut (à remplacer par une sélection réelle)
                     evenementId: evenement.id,
+                    placeId: 1, // Place par défaut (à remplacer par une sélection réelle)
                 }),
             });
 
-            if (!response.ok) {
-                const errorMessage = await response.text();
-                throw new Error(errorMessage || 'Échec de l\'achat du ticket');
+            switch (response.status) {
+                case 200:
+                    toast.success('Achat du ticket réussi !')
+                    break;
+                case 401:
+                    toast.error(await response.text());
+                    break;
+                default:
+                    toast.error("Une erreur s'est produite.");
+                    break;
             }
 
             const ticket = await response.json();

@@ -1,6 +1,5 @@
 import {NavBar} from 'app/components/Layout/NavBar/NavBar';
 import {Login} from '@app/components/Login/Login';
-import {Register} from "@components/Login/Register";
 
 const Header = () => (
     <header className="fixed top-0 left-0 right-0 bg-white z-40 shadow-sm">
@@ -12,7 +11,6 @@ const Header = () => (
 
                 <div className="flex items-center space-x-6">
                     <Login/>
-                    <Register/>
                     <NavBar/>
                 </div>
             </div>

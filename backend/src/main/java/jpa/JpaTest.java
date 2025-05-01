@@ -2,6 +2,8 @@ package jpa;
 
 
 import domain.Evenement;
+import domain.Place;
+import domain.Salle;
 import domain.Utilisateur;
 import enums.RoleUtilisateur;
 import jakarta.persistence.EntityManager;
@@ -25,6 +27,18 @@ public class JpaTest {
             Utilisateur user = new Utilisateur("test", "test", "test@test.com", pw, RoleUtilisateur.ORGANISATEUR);
             manager.persist(user);
 
+            // Des salles de test avec leurs places
+            for (int i = 1; i <= 3; i++) {
+                Salle salle = new Salle("Salle " + i, i + " rue des salles de concert, 35000 Rennes");
+                manager.persist(salle);
+
+                for (int j = 1; j <= 10; j++) {
+                    Place place = new Place("S" + i + "-P" + j, salle);
+                    manager.persist(place);
+                }
+            }
+
+
             // Des évènements de test
             Calendar cal = Calendar.getInstance();
             for (int i = 0; i < 5; i++) {
@@ -41,6 +55,7 @@ public class JpaTest {
                 evt.setLieu("Lieu test " + (i + 1));
                 evt.setPrix(10.0 + i);
                 evt.setCapacite(100 + i * 10);
+                evt.setSalle(manager.find(Salle.class, (long) (i % 3 + 1)));
 
                 manager.persist(evt);
             }

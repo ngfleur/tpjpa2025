@@ -12,7 +12,6 @@ interface NavBarItem {
 
 const navbarMainItems: NavBarItem[] = [
     {ref: '/', label: 'ACCUEIL'},
-    {ref: '/event', label: 'EVENEMENTS'},
 
 ];
 

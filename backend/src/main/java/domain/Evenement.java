@@ -1,5 +1,6 @@
 package domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -12,15 +13,14 @@ public class Evenement {
 
     private long id;
     private String titre;
+    private String description;
+    private String lieu;
     private Date dateDebut;
     private Date dateFin;
+    private double prix;
     private int capacite;
     private int inscrits;
-
-    private String lieu;
-    private Double prix;
-    private String description;
-
+    private Salle salle;
     private List<Artiste> artistes = new ArrayList<>();
     private List<GenreMusical> genreMusicaux = new ArrayList<>();
     private List<Notification> notifs = new ArrayList<>();
@@ -29,17 +29,17 @@ public class Evenement {
     // Constructeur mis à jour
     public Evenement(String titre, Date dateDebut, Date dateFin, String lieu, Double prix, String description, int capacite) {
         this.titre = titre;
+        this.description = description;
+        this.lieu = lieu;
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
-        this.lieu = lieu;
         this.prix = prix;
-        this.description = description;
         this.capacite = capacite;
         this.inscrits = 0;
     }
 
+    // Constructeur par défaut
     public Evenement() {
-        // Constructeur par défaut
     }
 
     @Id
@@ -121,6 +121,16 @@ public class Evenement {
         if (inscrits < capacite) {
             inscrits++;
         }
+    }
+
+    @ManyToOne
+    @JsonIgnoreProperties("evenements")
+    public Salle getSalle() {
+        return salle;
+    }
+
+    public void setSalle(Salle salle) {
+        this.salle = salle;
     }
 
     @ManyToMany
