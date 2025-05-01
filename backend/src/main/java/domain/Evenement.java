@@ -123,8 +123,8 @@ public class Evenement {
         }
     }
 
-    @ManyToOne
-    @JsonIgnoreProperties("evenements")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"evenements", "places", "hibernateLazyInitializer", "handler"})
     public Salle getSalle() {
         return salle;
     }
@@ -133,7 +133,7 @@ public class Evenement {
         this.salle = salle;
     }
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JsonManagedReference
     public List<Artiste> getArtistes() {
         return artistes;
@@ -144,7 +144,7 @@ public class Evenement {
     }
 
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JsonManagedReference
     public List<GenreMusical> getGenreMusicaux() {
         return genreMusicaux;
@@ -154,7 +154,7 @@ public class Evenement {
         this.genreMusicaux = genreMusicaux;
     }
 
-    @OneToMany(mappedBy = "evenement", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "evenement", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     public List<Notification> getNotifs() {
         return notifs;
     }
@@ -163,7 +163,8 @@ public class Evenement {
         this.notifs = notifs;
     }
 
-    @OneToMany(mappedBy = "evenement", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "evenement", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("evenement")
     public List<Ticket> getTickets() {
         return tickets;
     }

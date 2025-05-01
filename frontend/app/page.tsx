@@ -1,5 +1,3 @@
-'use client';
-
 import {HomeScreen} from '@app/components/HomeScreen/HomeScreen';
 import {Banner} from "@components/Banner/banner";
 

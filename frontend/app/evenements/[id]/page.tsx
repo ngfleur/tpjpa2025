@@ -146,27 +146,32 @@ export default function EvenementPage({params}: { params: { id: number } }) {
                                 <div className="space-y-4">
                                     <p className="text-xl">{evenement.description}</p>
 
-                                    <div className="flex flex-wrap gap-4">
-                                        {evenement.artistes.map((artiste) => (
-                                            <span
-                                                key={artiste.id}
-                                                className="bg-zinc-700 px-3 py-1 rounded-full"
-                                            >
-                              {artiste.nom}
-                            </span>
-                                        ))}
-                                    </div>
+                                    {evenement.artistes && (
+                                        <div className="flex flex-wrap gap-4">
+                                            {evenement.artistes.map((artiste) => (
+                                                <span
+                                                    key={artiste.id}
+                                                    className="bg-zinc-700 px-3 py-1 rounded-full"
+                                                >
+                                              {artiste.nom}
+                                            </span>
+                                            ))}
+                                        </div>
+                                    )}
 
-                                    <div className="flex flex-wrap gap-2">
-                                        {evenement.genreMusicaux.map((genre) => (
-                                            <span
-                                                key={genre.id}
-                                                className="text-sm text-zinc-400"
-                                            >
-                              #{genre.nom}
-                            </span>
-                                        ))}
-                                    </div>
+                                    {evenement.genreMusicaux && (
+                                        <div className="flex flex-wrap gap-2">
+                                            {evenement.genreMusicaux.map((genre) => (
+                                                <span
+                                                    key={genre.id}
+                                                    className="text-sm text-zinc-400"
+                                                >
+                                              #{genre.nom}
+                                            </span>
+                                            ))}
+                                        </div>
+                                    )}
+
                                 </div>
                             </div>
 

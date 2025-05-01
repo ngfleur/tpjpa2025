@@ -47,6 +47,7 @@ public class Place {
     }
 
     @OneToMany(mappedBy = "place")
+    @JsonIgnoreProperties("place")
     public List<Ticket> getTickets() {
         return tickets;
     }

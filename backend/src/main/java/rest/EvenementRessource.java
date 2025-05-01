@@ -4,12 +4,14 @@ import dao.EvenementDao;
 import domain.Artiste;
 import domain.Evenement;
 import domain.GenreMusical;
+import dto.EvenementDtoOut;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Path("evenement")
@@ -24,7 +26,7 @@ public class EvenementRessource {
     public Response getEvenementById(@PathParam("id") Long id) {
         Evenement evt = evenementDao.getEvenementById(id);
         if (evt != null) {
-            return Response.ok(evt).build();
+            return Response.ok(new EvenementDtoOut(evt)).build();
         } else {
             return Response.status(Response.Status.NOT_FOUND)
                     .entity("Événement non trouvé").build();
@@ -32,8 +34,10 @@ public class EvenementRessource {
     }
 
     @GET
-    public List<Evenement> getAllEvenements() {
-        return evenementDao.getAllEvenement();
+    public List<EvenementDtoOut> getAllEvenements() {
+        return evenementDao.getAllEvenement().stream()
+                .map(EvenementDtoOut::new)
+                .collect(Collectors.toList());
     }
 
     @POST

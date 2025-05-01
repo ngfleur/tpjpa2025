@@ -7,12 +7,14 @@ import Image from 'next/image';
 
 interface NavBarItem {
     ref: string,
-    label: string
+    label: string,
+    authRequired?: boolean,
 }
 
 const navbarMainItems: NavBarItem[] = [
     {ref: '/', label: 'ACCUEIL'},
-
+    {ref: '/my-events', label: 'MES EVENEMENTS', authRequired: true},
+    {ref: '/my-tickets', label: 'MES TICKETS', authRequired: true},
 ];
 
 const navbarSecondrayItems: NavBarItem[] = [];
@@ -23,7 +25,7 @@ const StyledNavLink = ({
                            ...linkProps
                        }: LinkProps & {
     isActive: boolean;
-    children: React.ReactNode;
+    children: ReactNode;
     className?: string;
 }) => (
     <NavLink
@@ -108,38 +110,44 @@ export function NavBar() {
 
                         <nav className="w-full">
                             <ul className="space-y-4">
-                                {navbarMainItems.map(({ref, label}) => (
-                                    <li key={ref} className="text-center">
-                                        <StyledNavLink
-                                            href={ref}
-                                            isActive={ref === linkRef}
-                                            className="text-xl text-white hover:text-purple-300 transition-colors"
-                                            onClick={(e) => {
-                                                setLinkRef(ref);
-                                                closeMenu();
-                                            }}
-                                        >
-                                            {label}
-                                        </StyledNavLink>
-                                    </li>
-                                ))}
+                                {navbarMainItems.map((item) => {
+                                    if (item.authRequired && !localStorage.getItem('authToken')) {
+                                        return;
+                                    }
+
+                                    return (
+                                        <li key={item.ref} className="text-center">
+                                            <StyledNavLink
+                                                href={item.ref}
+                                                isActive={item.ref === linkRef}
+                                                className="text-xl text-white hover:text-purple-300 transition-colors"
+                                                onClick={(e) => {
+                                                    setLinkRef(item.ref);
+                                                    closeMenu();
+                                                }}
+                                            >
+                                                {item.label}
+                                            </StyledNavLink>
+                                        </li>
+                                    );
+                                })}
                             </ul>
                         </nav>
 
                         <div className="mt-8">
                             <ul className="space-y-2">
-                                {navbarSecondrayItems.map(({ref, label}) => (
-                                    <li key={ref} className="text-center">
+                                {navbarSecondrayItems.map((item) => (
+                                    <li key={item.ref} className="text-center">
                                         <StyledNavLink
-                                            href={ref}
-                                            isActive={ref === linkRef}
+                                            href={item.ref}
+                                            isActive={item.ref === linkRef}
                                             className="text-sm text-gray-400 hover:text-white transition-colors"
                                             onClick={() => {
-                                                setLinkRef(ref);
+                                                setLinkRef(item.ref);
                                                 closeMenu();
                                             }}
                                         >
-                                            {label}
+                                            {item.label}
                                         </StyledNavLink>
                                     </li>
                                 ))}

@@ -1,5 +1,6 @@
 package domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -54,6 +55,7 @@ public class Salle {
     }
 
     @OneToMany(mappedBy = "salle")
+    @JsonIgnoreProperties("salle")
     public List<Evenement> getEvenements() {
         return evenements;
     }
@@ -63,6 +65,7 @@ public class Salle {
     }
 
     @OneToMany(mappedBy = "salle")
+    @JsonIgnoreProperties("salle")
     public List<Place> getPlaces() {
         return places;
     }
