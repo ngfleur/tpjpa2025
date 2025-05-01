@@ -1,26 +1,17 @@
 package dto;
 
 public class TicketDtoIn {
-    private Double prixPaye;
     private Long utilisateurId;
     private Long placeId;
     private Long evenementId;
 
-    public TicketDtoIn() {}
+    public TicketDtoIn() {
+    }
 
     public TicketDtoIn(Double prixPaye, Long utilisateurId, Long placeId, Long evenementId) {
-        this.prixPaye = prixPaye;
+        this.evenementId = evenementId;
         this.utilisateurId = utilisateurId;
         this.placeId = placeId;
-        this.evenementId = evenementId;
-    }
-
-    public Double getPrixPaye() {
-        return prixPaye;
-    }
-
-    public void setPrixPaye(Double prixPaye) {
-        this.prixPaye = prixPaye;
     }
 
     public Long getUtilisateurId() {
