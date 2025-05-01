@@ -20,8 +20,6 @@ export default function EvenementPage({params}: { params: { id: number } }) {
 
 
     const handleAchatTicket = async () => {
-        console.log('Tentative d\'achat, connecté ?', isLoggedIn());
-
         // Si l'utilisateur n'est pas connecté, ouvrir la modale de connexion
         if (!isLoggedIn()) {
             openModal('LOGIN');
@@ -53,14 +51,17 @@ export default function EvenementPage({params}: { params: { id: number } }) {
                 },
                 body: JSON.stringify({
                     utilisateurId: utilisateurId,
-                    evenementId: evenement.id,
+                    evenementId: evenement!.id,
                     placeId: 1, // Place par défaut (à remplacer par une sélection réelle)
                 }),
             });
 
             switch (response.status) {
                 case 200:
-                    toast.success('Achat du ticket réussi !')
+                    toast.success('Achat du ticket réussi !', {
+                        description: 'Vous pourrez le retrouver sur votre page "Mes tickets".',
+                    });
+                    window.location.reload();
                     break;
                 case 401:
                     toast.error(await response.text());
